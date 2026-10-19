@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="title desc">
+  <title id="title">ChatGPT Plus subscription</title>
+  <desc id="desc">Original PPDS catalogue artwork for ChatGPT Plus.</desc>
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071f1a"/><stop offset="1" stop-color="#0d7965"/></linearGradient></defs>
+  <rect width="800" height="600" rx="48" fill="url(#g)"/><circle cx="400" cy="230" r="116" fill="none" stroke="#5ee6c4" stroke-width="18"/><path d="M345 190h110v80H345zM370 165v130M430 165v130" fill="none" stroke="#fff" stroke-width="16" stroke-linecap="round"/><text x="400" y="425" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif" font-size="66" font-weight="800">ChatGPT Plus</text><text x="400" y="478" text-anchor="middle" fill="#a7f3d0" font-family="Arial,sans-serif" font-size="24" letter-spacing="5">PREMIUM ACCESS</text>
+</svg>

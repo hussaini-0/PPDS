@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="title desc">
+  <title id="title">LinkedIn Premium subscription</title>
+  <desc id="desc">Original PPDS catalogue artwork for LinkedIn Premium.</desc>
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#072d4f"/><stop offset="1" stop-color="#0284c7"/></linearGradient></defs>
+  <rect width="800" height="600" rx="48" fill="url(#g)"/><rect x="290" y="115" width="220" height="220" rx="48" fill="#fff"/><text x="400" y="280" text-anchor="middle" fill="#0369a1" font-family="Arial,sans-serif" font-size="132" font-weight="900">in</text><text x="400" y="425" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif" font-size="66" font-weight="800">LinkedIn Premium</text><text x="400" y="478" text-anchor="middle" fill="#bae6fd" font-family="Arial,sans-serif" font-size="24" letter-spacing="5">CAREER &amp; BUSINESS</text>
+</svg>

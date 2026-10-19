@@ -1,0 +1,1080 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  OWNER
+  ADMIN
+  AGENT
+  VIEWER
+}
+
+enum LeadStage {
+  NEW
+  BOT_ENGAGED
+  QUALIFYING
+  QUALIFIED
+  PLAN_RECOMMENDED
+  INTERESTED
+  PAYMENT_INSTRUCTIONS_SENT
+  PAYMENT_PROOF_RECEIVED
+  PAYMENT_UNDER_REVIEW
+  CONVERTED
+  FOLLOW_UP_REQUIRED
+  UNRESPONSIVE
+  NOT_INTERESTED
+  LOST
+}
+
+enum LeadTemperature {
+  COLD
+  WARM
+  HOT
+}
+
+enum BotStatus {
+  ACTIVE
+  PAUSED
+  ESCALATED
+}
+
+enum ConversationChannel {
+  WHATSAPP
+}
+
+enum ConversationStatus {
+  OPEN
+  WAITING_FOR_CUSTOMER
+  WAITING_FOR_OWNER
+  RESOLVED
+  CLOSED
+}
+
+enum MessageDirection {
+  INBOUND
+  OUTBOUND
+}
+
+enum MessageSenderType {
+  CUSTOMER
+  BOT
+  OWNER
+  SYSTEM
+}
+
+enum MessageType {
+  TEXT
+  IMAGE
+  DOCUMENT
+  AUDIO
+  INTERACTIVE_BUTTON_REPLY
+  LIST_REPLY
+  TEMPLATE
+  UNSUPPORTED
+}
+
+enum MessageStatus {
+  QUEUED
+  SENT
+  DELIVERED
+  READ
+  FAILED
+}
+
+enum BillingInterval {
+  MONTHLY
+  QUARTERLY
+  YEARLY
+  CUSTOM
+}
+
+enum SubscriptionStatus {
+  PENDING_PAYMENT
+  PAYMENT_REVIEW
+  ACTIVE
+  EXPIRING
+  EXPIRED
+  CANCELLED
+  PAUSED
+}
+
+enum PaymentStatus {
+  AWAITING_PAYMENT
+  PROOF_RECEIVED
+  UNDER_REVIEW
+  VERIFIED
+  REJECTED
+  PARTIALLY_PAID
+  OVERDUE
+}
+
+enum KnowledgeBaseCategory {
+  PLAN
+  PRICING
+  FAQ
+  PAYMENT
+  POLICY
+  OBJECTION
+  BUSINESS_INFORMATION
+  ESCALATION
+}
+
+enum KnowledgeBaseStatus {
+  DRAFT
+  APPROVED
+  ARCHIVED
+}
+
+enum FollowUpJobStatus {
+  SCHEDULED
+  RUNNING
+  EXECUTED
+  CANCELLED
+  FAILED
+}
+
+enum TemplateStatus {
+  DRAFT
+  APPROVED
+  REJECTED
+  DISABLED
+}
+
+enum BroadcastStatus {
+  DRAFT
+  SCHEDULED
+  RUNNING
+  PAUSED
+  COMPLETED
+  CANCELLED
+  FAILED
+}
+
+enum BroadcastRecipientStatus {
+  PENDING
+  SENT
+  DELIVERED
+  READ
+  REPLIED
+  FAILED
+  SKIPPED
+}
+
+enum MetaEntityStatus {
+  ACTIVE
+  PAUSED
+  ARCHIVED
+  DELETED
+}
+
+enum AttributionConfidence {
+  EXACT_REFERRAL
+  MATCHED
+  SELF_REPORTED
+  UNKNOWN
+}
+
+enum WebhookProvider {
+  WHATSAPP
+  META
+}
+
+enum WebhookEventStatus {
+  RECEIVED
+  PROCESSED
+  FAILED
+}
+
+enum AttentionItemPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum AttentionItemStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+}
+
+enum QualificationAnswerType {
+  TEXT
+  NUMBER
+  SINGLE_SELECT
+  MULTI_SELECT
+  BOOLEAN
+}
+
+enum IntegrationMode {
+  MOCK
+  LIVE
+}
+
+enum CmsPublicationStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum ProjectInquiryStatus {
+  NEW
+  REVIEWING
+  QUOTED
+  WON
+  LOST
+  CLOSED
+}
+
+model Business {
+  id                     String                  @id @default(cuid())
+  name                   String
+  timezone               String
+  currency               String
+  defaultLanguage        String
+  createdAt              DateTime                @default(now())
+  updatedAt              DateTime                @updatedAt
+  users                  User[]
+  customers              Customer[]
+  leads                  Lead[]
+  conversations          Conversation[]
+  subscriptionPlans      SubscriptionPlan[]
+  subscriptions          Subscription[]
+  payments               Payment[]
+  uploadedFiles          UploadedFile[]
+  knowledgeBaseEntries   KnowledgeBaseEntry[]
+  automationRules        AutomationRule[]
+  followUpJobs           FollowUpJob[]
+  whatsappTemplates      WhatsAppTemplate[]
+  broadcastCampaigns     BroadcastCampaign[]
+  metaAdAccounts         MetaAdAccount[]
+  metaCampaigns          MetaCampaign[]
+  metaAdSets             MetaAdSet[]
+  metaAds                MetaAd[]
+  metaDailyInsights      MetaDailyInsight[]
+  attributionEvents      AttributionEvent[]
+  auditLogs              AuditLog[]
+  attentionItems         OwnerAttentionItem[]
+  qualificationQuestions QualificationQuestion[]
+  integrationSettings    IntegrationSetting[]
+  productCategories      ProductCategory[]
+  products               Product[]
+  developmentPackages    DevelopmentPackage[]
+  cmsPages               CmsPage[]
+  testimonials           Testimonial[]
+  faqs                   Faq[]
+  projectInquiries       ProjectInquiry[]
+  newsletterSubscribers  NewsletterSubscriber[]
+}
+
+model User {
+  id                       String               @id @default(cuid())
+  businessId               String
+  name                     String
+  email                    String
+  passwordHash             String?
+  role                     UserRole
+  isActive                 Boolean              @default(true)
+  createdAt                DateTime             @default(now())
+  updatedAt                DateTime             @updatedAt
+  business                 Business             @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  assignedLeads            Lead[]               @relation("LeadAssignedUser")
+  activatedSubs            Subscription[]       @relation("SubscriptionActivatedBy")
+  verifiedPayments         Payment[]            @relation("PaymentVerifiedBy")
+  createdKnowledgeEntries  KnowledgeBaseEntry[] @relation("KnowledgeCreatedBy")
+  approvedKnowledgeEntries KnowledgeBaseEntry[] @relation("KnowledgeApprovedBy")
+  createdBroadcasts        BroadcastCampaign[]  @relation("BroadcastCreatedBy")
+  auditLogs                AuditLog[]
+  sessions                 Session[]
+  accounts                 Account[]
+
+  @@unique([businessId, email])
+  @@index([businessId, role])
+}
+
+model Customer {
+  id                    String               @id @default(cuid())
+  businessId            String
+  fullName              String
+  phoneNumber           String
+  normalizedPhoneNumber String
+  email                 String?
+  city                  String?
+  notes                 String?
+  tags                  String[]
+  marketingOptIn        Boolean              @default(false)
+  marketingOptInAt      DateTime?
+  marketingOptOutAt     DateTime?
+  lastContactAt         DateTime?
+  source                String?
+  createdAt             DateTime             @default(now())
+  updatedAt             DateTime             @updatedAt
+  business              Business             @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  leads                 Lead[]
+  conversations         Conversation[]
+  subscriptions         Subscription[]
+  payments              Payment[]
+  uploadedFiles         UploadedFile[]
+  broadcastRecipients   BroadcastRecipient[]
+  attributionEvents     AttributionEvent[]
+  attentionItems        OwnerAttentionItem[]
+
+  @@unique([businessId, normalizedPhoneNumber])
+  @@index([businessId, source])
+}
+
+model Lead {
+  id                     String               @id @default(cuid())
+  businessId             String
+  customerId             String
+  stage                  LeadStage
+  intentScore            Int                  @default(0)
+  leadTemperature        LeadTemperature      @default(COLD)
+  source                 String?
+  metaCampaignId         String?
+  metaAdSetId            String?
+  metaAdId               String?
+  referralMetadata       Json?
+  selectedPlanId         String?
+  assignedToUserId       String?
+  botStatus              BotStatus            @default(ACTIVE)
+  humanAttentionRequired Boolean              @default(false)
+  humanAttentionReason   String?
+  structuredData         Json?
+  lastInboundMessageAt   DateTime?
+  lastOutboundMessageAt  DateTime?
+  nextFollowUpAt         DateTime?
+  convertedAt            DateTime?
+  lostAt                 DateTime?
+  lostReason             String?
+  createdAt              DateTime             @default(now())
+  updatedAt              DateTime             @updatedAt
+  business               Business             @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  customer               Customer             @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  selectedPlan           SubscriptionPlan?    @relation(fields: [selectedPlanId], references: [id])
+  assignedToUser         User?                @relation("LeadAssignedUser", fields: [assignedToUserId], references: [id])
+  conversation           Conversation?
+  subscriptions          Subscription[]
+  payments               Payment[]
+  followUpJobs           FollowUpJob[]
+  attributionEvents      AttributionEvent[]
+  attentionItems         OwnerAttentionItem[]
+
+  @@index([businessId, stage])
+  @@index([businessId, nextFollowUpAt])
+}
+
+model Conversation {
+  id                     String                @id @default(cuid())
+  businessId             String
+  customerId             String
+  leadId                 String?               @unique
+  channel                ConversationChannel
+  status                 ConversationStatus
+  botEnabled             Boolean               @default(true)
+  humanTakeover          Boolean               @default(false)
+  complaintState         Boolean               @default(false)
+  lastMessageAt          DateTime?
+  unreadCount            Int                   @default(0)
+  serviceWindowExpiresAt DateTime?
+  createdAt              DateTime              @default(now())
+  updatedAt              DateTime              @updatedAt
+  business               Business              @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  customer               Customer              @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  lead                   Lead?                 @relation(fields: [leadId], references: [id])
+  messages               Message[]
+  botState               BotConversationState?
+  followUpJobs           FollowUpJob[]
+  recipients             BroadcastRecipient[]
+  attentionItems         OwnerAttentionItem[]
+
+  @@index([businessId, status, lastMessageAt])
+}
+
+model Message {
+  id                String            @id @default(cuid())
+  conversationId    String
+  providerMessageId String?
+  direction         MessageDirection
+  senderType        MessageSenderType
+  messageType       MessageType
+  body              String?
+  mediaUrl          String?
+  mediaMimeType     String?
+  templateName      String?
+  templateLanguage  String?
+  status            MessageStatus
+  errorCode         String?
+  errorMessage      String?
+  rawPayload        Json?
+  sentAt            DateTime?
+  deliveredAt       DateTime?
+  readAt            DateTime?
+  failedAt          DateTime?
+  createdAt         DateTime          @default(now())
+  conversation      Conversation      @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@unique([conversationId, providerMessageId])
+  @@index([conversationId, createdAt])
+}
+
+model SubscriptionPlan {
+  id                     String          @id @default(cuid())
+  businessId             String
+  name                   String
+  description            String?
+  price                  Decimal         @db.Decimal(12, 2)
+  billingInterval        BillingInterval
+  durationDays           Int
+  features               Json
+  qualificationRules     Json?
+  recommendationPriority Int             @default(0)
+  isActive               Boolean         @default(true)
+  createdAt              DateTime        @default(now())
+  updatedAt              DateTime        @updatedAt
+  business               Business        @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  leads                  Lead[]
+  subscriptions          Subscription[]
+
+  @@index([businessId, isActive, recommendationPriority])
+}
+
+model Subscription {
+  id                 String             @id @default(cuid())
+  businessId         String
+  customerId         String
+  planId             String
+  leadId             String?
+  status             SubscriptionStatus
+  startDate          DateTime
+  expiryDate         DateTime
+  amount             Decimal            @db.Decimal(12, 2)
+  billingInterval    BillingInterval
+  autoRenew          Boolean            @default(false)
+  activatedByUserId  String?
+  activatedAt        DateTime?
+  cancelledAt        DateTime?
+  cancellationReason String?
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  business           Business           @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  customer           Customer           @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  plan               SubscriptionPlan   @relation(fields: [planId], references: [id])
+  lead               Lead?              @relation(fields: [leadId], references: [id])
+  activatedByUser    User?              @relation("SubscriptionActivatedBy", fields: [activatedByUserId], references: [id])
+  payments           Payment[]
+  attributionEvents  AttributionEvent[]
+
+  @@index([businessId, status, expiryDate])
+}
+
+model Payment {
+  id               String        @id @default(cuid())
+  businessId       String
+  customerId       String
+  subscriptionId   String?
+  leadId           String?
+  amount           Decimal       @db.Decimal(12, 2)
+  currency         String
+  paymentMethod    String
+  referenceNumber  String?
+  status           PaymentStatus
+  proofFileId      String?
+  submittedAt      DateTime?
+  verifiedAt       DateTime?
+  verifiedByUserId String?
+  rejectionReason  String?
+  notes            String?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  business         Business      @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  customer         Customer      @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  subscription     Subscription? @relation(fields: [subscriptionId], references: [id])
+  lead             Lead?         @relation(fields: [leadId], references: [id])
+  proofFile        UploadedFile? @relation(fields: [proofFileId], references: [id])
+  verifiedByUser   User?         @relation("PaymentVerifiedBy", fields: [verifiedByUserId], references: [id])
+
+  @@index([businessId, status, submittedAt])
+}
+
+model UploadedFile {
+  id               String           @id @default(cuid())
+  businessId       String
+  customerId       String?
+  storageProvider  String
+  storageKey       String
+  originalName     String
+  mimeType         String
+  size             Int
+  checksum         String
+  createdAt        DateTime         @default(now())
+  business         Business         @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  customer         Customer?        @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  payments         Payment[]
+  projectInquiries ProjectInquiry[]
+
+  @@unique([businessId, storageKey])
+}
+
+model KnowledgeBaseEntry {
+  id               String                @id @default(cuid())
+  businessId       String
+  category         KnowledgeBaseCategory
+  title            String
+  content          String
+  keywords         String[]
+  status           KnowledgeBaseStatus
+  version          Int                   @default(1)
+  createdByUserId  String
+  approvedByUserId String?
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime              @updatedAt
+  business         Business              @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  createdByUser    User                  @relation("KnowledgeCreatedBy", fields: [createdByUserId], references: [id])
+  approvedByUser   User?                 @relation("KnowledgeApprovedBy", fields: [approvedByUserId], references: [id])
+
+  @@index([businessId, category, status])
+}
+
+model BotConversationState {
+  id                String       @id @default(cuid())
+  conversationId    String       @unique
+  currentStep       String
+  collectedData     Json
+  recommendedPlanId String?
+  confidence        Decimal      @db.Decimal(5, 2)
+  lastIntent        String?
+  failedAnswerCount Int          @default(0)
+  followUpCount     Int          @default(0)
+  updatedAt         DateTime     @updatedAt
+  conversation      Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+}
+
+model AutomationRule {
+  id           String        @id @default(cuid())
+  businessId   String
+  name         String
+  triggerType  String
+  conditions   Json
+  actions      Json
+  delayMinutes Int           @default(0)
+  isActive     Boolean       @default(true)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  business     Business      @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  followUpJobs FollowUpJob[]
+}
+
+model FollowUpJob {
+  id                 String            @id @default(cuid())
+  businessId         String
+  leadId             String
+  conversationId     String
+  automationRuleId   String?
+  scheduledFor       DateTime
+  status             FollowUpJobStatus
+  attemptCount       Int               @default(0)
+  cancellationReason String?
+  executedAt         DateTime?
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  business           Business          @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  lead               Lead              @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  conversation       Conversation      @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  automationRule     AutomationRule?   @relation(fields: [automationRuleId], references: [id])
+
+  @@index([businessId, scheduledFor, status])
+}
+
+model WhatsAppTemplate {
+  id                 String              @id @default(cuid())
+  businessId         String
+  providerTemplateId String?
+  name               String
+  category           String
+  language           String
+  status             TemplateStatus
+  components         Json
+  variables          Json?
+  lastSyncedAt       DateTime?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  business           Business            @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  broadcastCampaigns BroadcastCampaign[]
+
+  @@index([businessId, status, language])
+}
+
+model BroadcastCampaign {
+  id                String               @id @default(cuid())
+  businessId        String
+  name              String
+  templateId        String
+  status            BroadcastStatus
+  audienceFilter    Json
+  scheduledAt       DateTime?
+  startedAt         DateTime?
+  completedAt       DateTime?
+  createdByUserId   String
+  totalRecipients   Int                  @default(0)
+  sentCount         Int                  @default(0)
+  deliveredCount    Int                  @default(0)
+  readCount         Int                  @default(0)
+  repliedCount      Int                  @default(0)
+  failedCount       Int                  @default(0)
+  convertedCount    Int                  @default(0)
+  revenueAttributed Decimal              @default(0) @db.Decimal(12, 2)
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+  business          Business             @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  template          WhatsAppTemplate     @relation(fields: [templateId], references: [id])
+  createdByUser     User                 @relation("BroadcastCreatedBy", fields: [createdByUserId], references: [id])
+  recipients        BroadcastRecipient[]
+
+  @@index([businessId, status, scheduledAt])
+}
+
+model BroadcastRecipient {
+  id                    String                   @id @default(cuid())
+  campaignId            String
+  customerId            String
+  conversationId        String?
+  personalizedVariables Json?
+  status                BroadcastRecipientStatus
+  providerMessageId     String?
+  failureReason         String?
+  sentAt                DateTime?
+  deliveredAt           DateTime?
+  readAt                DateTime?
+  repliedAt             DateTime?
+  convertedAt           DateTime?
+  createdAt             DateTime                 @default(now())
+  updatedAt             DateTime                 @updatedAt
+  campaign              BroadcastCampaign        @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  customer              Customer                 @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  conversation          Conversation?            @relation(fields: [conversationId], references: [id])
+
+  @@unique([campaignId, customerId])
+}
+
+model MetaAdAccount {
+  id                String             @id @default(cuid())
+  businessId        String
+  externalAccountId String
+  name              String
+  currency          String
+  timezone          String
+  isActive          Boolean            @default(true)
+  lastSyncedAt      DateTime?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  business          Business           @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  campaigns         MetaCampaign[]
+  dailyInsights     MetaDailyInsight[]
+
+  @@unique([businessId, externalAccountId])
+}
+
+model MetaCampaign {
+  id                 String             @id @default(cuid())
+  businessId         String
+  adAccountId        String
+  externalCampaignId String
+  name               String
+  status             MetaEntityStatus
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  business           Business           @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  adAccount          MetaAdAccount      @relation(fields: [adAccountId], references: [id], onDelete: Cascade)
+  adSets             MetaAdSet[]
+  dailyInsights      MetaDailyInsight[]
+
+  @@unique([businessId, externalCampaignId])
+}
+
+model MetaAdSet {
+  id              String             @id @default(cuid())
+  businessId      String
+  campaignId      String
+  externalAdSetId String
+  name            String
+  status          MetaEntityStatus
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  business        Business           @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  campaign        MetaCampaign       @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  ads             MetaAd[]
+  dailyInsights   MetaDailyInsight[]
+
+  @@unique([businessId, externalAdSetId])
+}
+
+model MetaAd {
+  id            String             @id @default(cuid())
+  businessId    String
+  adSetId       String
+  externalAdId  String
+  name          String
+  status        MetaEntityStatus
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+  business      Business           @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  adSet         MetaAdSet          @relation(fields: [adSetId], references: [id], onDelete: Cascade)
+  dailyInsights MetaDailyInsight[]
+
+  @@unique([businessId, externalAdId])
+}
+
+model MetaDailyInsight {
+  id                   String        @id @default(cuid())
+  businessId           String
+  date                 DateTime
+  accountId            String
+  campaignId           String?
+  adSetId              String?
+  adId                 String?
+  spend                Decimal       @db.Decimal(12, 2)
+  impressions          Int
+  reach                Int
+  clicks               Int
+  outboundClicks       Int
+  conversationsStarted Int
+  leads                Int
+  conversions          Int
+  costPerResult        Decimal       @db.Decimal(12, 2)
+  cpc                  Decimal       @db.Decimal(12, 2)
+  cpm                  Decimal       @db.Decimal(12, 2)
+  ctr                  Decimal       @db.Decimal(12, 4)
+  rawPayload           Json
+  business             Business      @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  account              MetaAdAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  campaign             MetaCampaign? @relation(fields: [campaignId], references: [id])
+  adSet                MetaAdSet?    @relation(fields: [adSetId], references: [id])
+  ad                   MetaAd?       @relation(fields: [adId], references: [id])
+
+  @@unique([accountId, date, campaignId, adSetId, adId])
+  @@index([businessId, date])
+}
+
+model AttributionEvent {
+  id              String                @id @default(cuid())
+  businessId      String
+  customerId      String
+  leadId          String?
+  subscriptionId  String?
+  eventType       String
+  eventTime       DateTime
+  metaCampaignId  String?
+  metaAdSetId     String?
+  metaAdId        String?
+  clickId         String?
+  source          String?
+  value           Decimal?              @db.Decimal(12, 2)
+  currency        String?
+  externalEventId String?
+  confidence      AttributionConfidence @default(UNKNOWN)
+  rawPayload      Json?
+  createdAt       DateTime              @default(now())
+  business        Business              @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  customer        Customer              @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  lead            Lead?                 @relation(fields: [leadId], references: [id])
+  subscription    Subscription?         @relation(fields: [subscriptionId], references: [id])
+
+  @@index([businessId, eventTime])
+}
+
+model WebhookEvent {
+  id              String             @id @default(cuid())
+  provider        WebhookProvider
+  externalEventId String?
+  eventType       String
+  payload         Json
+  payloadHash     String
+  status          WebhookEventStatus
+  attemptCount    Int                @default(0)
+  processedAt     DateTime?
+  errorMessage    String?
+  receivedAt      DateTime           @default(now())
+
+  @@unique([provider, payloadHash])
+  @@index([provider, status, receivedAt])
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  businessId  String
+  actorId     String?
+  action      String
+  entityType  String
+  entityId    String
+  beforeState Json?
+  afterState  Json?
+  ipMetadata  Json?
+  createdAt   DateTime @default(now())
+  business    Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  actor       User?    @relation(fields: [actorId], references: [id])
+
+  @@index([businessId, entityType, createdAt])
+}
+
+model OwnerAttentionItem {
+  id                String                @id @default(cuid())
+  businessId        String
+  customerId        String?
+  leadId            String?
+  conversationId    String?
+  priority          AttentionItemPriority
+  reason            String
+  recommendedAction String?
+  status            AttentionItemStatus   @default(OPEN)
+  createdAt         DateTime              @default(now())
+  updatedAt         DateTime              @updatedAt
+  resolvedAt        DateTime?
+  business          Business              @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  customer          Customer?             @relation(fields: [customerId], references: [id])
+  lead              Lead?                 @relation(fields: [leadId], references: [id])
+  conversation      Conversation?         @relation(fields: [conversationId], references: [id])
+
+  @@index([businessId, status, priority, createdAt])
+}
+
+model QualificationQuestion {
+  id                   String                  @id @default(cuid())
+  businessId           String
+  label                String
+  prompt               String
+  answerType           QualificationAnswerType
+  isRequired           Boolean                 @default(true)
+  options              Json?
+  qualificationWeight  Int                     @default(1)
+  disqualifyingAnswers Json?
+  planMapping          Json?
+  sortOrder            Int                     @default(0)
+  isActive             Boolean                 @default(true)
+  createdAt            DateTime                @default(now())
+  updatedAt            DateTime                @updatedAt
+  business             Business                @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId, isActive, sortOrder])
+}
+
+model IntegrationSetting {
+  id            String          @id @default(cuid())
+  businessId    String
+  provider      String
+  mode          IntegrationMode
+  settings      Json
+  isConnected   Boolean         @default(false)
+  lastCheckedAt DateTime?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  business      Business        @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@unique([businessId, provider])
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([sessionToken])
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+}
+
+model ProductCategory {
+  id          String               @id @default(cuid())
+  businessId  String
+  name        String
+  slug        String
+  description String?
+  icon        String?
+  sortOrder   Int                  @default(0)
+  status      CmsPublicationStatus @default(DRAFT)
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+  business    Business             @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  products    Product[]
+
+  @@unique([businessId, slug])
+  @@index([businessId, status, sortOrder])
+}
+
+model Product {
+  id               String               @id @default(cuid())
+  businessId       String
+  categoryId       String
+  name             String
+  slug             String
+  shortDescription String
+  description      String
+  price            Decimal              @db.Decimal(12, 2)
+  compareAtPrice   Decimal?             @db.Decimal(12, 2)
+  imageUrl         String?
+  logoUrl          String?
+  badge            String?
+  features         String[]
+  isFeatured       Boolean              @default(false)
+  isBestSeller     Boolean              @default(false)
+  status           CmsPublicationStatus @default(DRAFT)
+  sortOrder        Int                  @default(0)
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+  business         Business             @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  category         ProductCategory      @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+
+  @@unique([businessId, slug])
+  @@index([businessId, status, isFeatured, isBestSeller])
+  @@index([categoryId, status])
+}
+
+model DevelopmentPackage {
+  id            String               @id @default(cuid())
+  businessId    String
+  name          String
+  slug          String
+  serviceType   String
+  audience      String
+  summary       String
+  features      String[]
+  startingPrice Decimal?             @db.Decimal(12, 2)
+  timeline      String
+  revisions     String
+  supportPeriod String
+  isFeatured    Boolean              @default(false)
+  status        CmsPublicationStatus @default(DRAFT)
+  sortOrder     Int                  @default(0)
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+  business      Business             @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@unique([businessId, slug])
+  @@index([businessId, status, serviceType, sortOrder])
+}
+
+model CmsPage {
+  id             String               @id @default(cuid())
+  businessId     String
+  key            String
+  title          String
+  eyebrow        String?
+  summary        String?
+  content        Json
+  seoTitle       String?
+  seoDescription String?
+  status         CmsPublicationStatus @default(DRAFT)
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+  business       Business             @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@unique([businessId, key])
+  @@index([businessId, status])
+}
+
+model Testimonial {
+  id           String               @id @default(cuid())
+  businessId   String
+  customerName String
+  customerRole String?
+  quote        String
+  rating       Int                  @default(5)
+  isVerified   Boolean              @default(false)
+  status       CmsPublicationStatus @default(DRAFT)
+  sortOrder    Int                  @default(0)
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+  business     Business             @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId, status, sortOrder])
+}
+
+model Faq {
+  id         String               @id @default(cuid())
+  businessId String
+  category   String
+  question   String
+  answer     String
+  keywords   String[]
+  status     CmsPublicationStatus @default(DRAFT)
+  sortOrder  Int                  @default(0)
+  createdAt  DateTime             @default(now())
+  updatedAt  DateTime             @updatedAt
+  business   Business             @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId, status, category, sortOrder])
+}
+
+model ProjectInquiry {
+  id                     String               @id @default(cuid())
+  businessId             String
+  fullName               String
+  companyName            String?
+  email                  String
+  whatsappNumber         String
+  serviceRequired        String
+  preferredPackage       String?
+  projectDescription     String
+  requiredFeatures       String?
+  expectedBudget         String?
+  desiredDeadline        DateTime?
+  referenceWebsite       String?
+  preferredContactMethod String
+  consent                Boolean
+  briefFileId            String?
+  status                 ProjectInquiryStatus @default(NEW)
+  createdAt              DateTime             @default(now())
+  updatedAt              DateTime             @updatedAt
+  business               Business             @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  briefFile              UploadedFile?        @relation(fields: [briefFileId], references: [id])
+
+  @@index([businessId, status, createdAt])
+}
+
+model NewsletterSubscriber {
+  id          String   @id @default(cuid())
+  businessId  String
+  email       String
+  isActive    Boolean  @default(true)
+  consentedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  business    Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@unique([businessId, email])
+  @@index([businessId, isActive])
+}

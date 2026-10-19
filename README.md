@@ -74,16 +74,21 @@ These credentials are for local seeded development only.
 
 ## Website CMS
 
+- Customer WhatsApp access is available at `/login`; configure `WHATSAPP_PUBLIC_NUMBER` to render the conversation QR code and public support links.
+- Staff authentication is separate at `/admin/login` and is not linked from the public storefront.
 - Open `/dashboard/cms` with the seeded owner account.
 - Create and publish categories, products, software packages, FAQs, testimonials, and editable page content.
 - Review project enquiries and newsletter subscriptions.
 - Only published CMS records appear publicly or become available to the WhatsApp bot.
+- Import potential customers from CSV at `/dashboard/contacts`. Required headers are `name` and `phone`; optional headers are `email`, `city`, `notes`, `tags`, and `marketing_consent`.
+- Imports normalize and deduplicate phone numbers, create `NEW` leads, and leave marketing consent disabled unless the CSV explicitly records consent.
 
 ## Live mode
 
 - Set `INTEGRATION_MODE=live`.
 - Provide official Meta and WhatsApp credentials through environment variables.
 - Inbound webhooks are signature-verified and outbound bot, owner, follow-up, and broadcast messages use the WhatsApp Cloud API.
+- The customer QR opens the official business conversation; it does not authenticate a WhatsApp Web session or expose customer credentials.
 - Use `DEPLOYMENT.md` and `.env.production.example` for the release procedure.
 
 ## Known limitations as of October 18, 2026

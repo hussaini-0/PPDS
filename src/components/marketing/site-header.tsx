@@ -3,6 +3,7 @@ import { Heart, Menu, MessageCircle, Search, ShoppingBag, UserRound } from "luci
 
 import { BrandLogo } from "@/components/marketing/brand-logo";
 import { getFeaturedStorefrontProducts } from "@/modules/cms/service";
+import { getPublicWhatsAppUrl } from "@/lib/whatsapp";
 
 const links = [
   ["/", "Home"],
@@ -15,6 +16,7 @@ const links = [
 
 export async function SiteHeader() {
   const featuredProducts = await getFeaturedStorefrontProducts();
+  const whatsAppUrl = getPublicWhatsAppUrl();
   const announcement = featuredProducts.length
     ? `${featuredProducts.map((product) => product.name).join(" · ")} subscriptions`
     : "Premium digital subscriptions · WhatsApp support";
@@ -35,7 +37,7 @@ export async function SiteHeader() {
             </label>
           </form>
           <div className="ml-auto flex items-center gap-2">
-            <Link href="/login" aria-label="Client portal" className="rounded-full border border-slate-300 p-2.5 hover:bg-white"><UserRound className="size-4" /></Link>
+            <Link href="/login" aria-label="Customer WhatsApp access" title="Customer WhatsApp access" className="rounded-full border border-slate-300 p-2.5 hover:bg-white"><UserRound className="size-4" /></Link>
             <Link href="/products" aria-label="Wishlist" className="hidden rounded-full border border-slate-300 p-2.5 hover:bg-white sm:block"><Heart className="size-4" /></Link>
             <Link href="/cart" aria-label="Cart" className="rounded-full border border-slate-300 p-2.5 hover:bg-white"><ShoppingBag className="size-4" /></Link>
             <Link href="/project-request" className="hidden rounded-full bg-[#18c7d8] px-5 py-2.5 text-sm font-bold text-[#07111f] hover:bg-[#38d5e2] md:block">Build my software</Link>
@@ -45,7 +47,7 @@ export async function SiteHeader() {
           <nav className="mx-auto hidden max-w-7xl items-center gap-7 px-8 py-3 text-sm font-semibold text-slate-700 lg:flex">
             {links.map(([href, label]) => <Link key={href} href={href} className="hover:text-cyan-700">{label}</Link>)}
             <Link href="/faqs" className="hover:text-cyan-700">FAQs</Link>
-            <Link href="https://wa.me/923480694422" className="ml-auto flex items-center gap-2 text-emerald-700"><MessageCircle className="size-4" /> WhatsApp support</Link>
+            <Link href={whatsAppUrl} className="ml-auto flex items-center gap-2 text-emerald-700"><MessageCircle className="size-4" /> WhatsApp support</Link>
           </nav>
           <details className="px-4 py-3 lg:hidden">
             <summary className="flex cursor-pointer list-none items-center gap-2 text-sm font-semibold"><Menu className="size-4" /> Menu</summary>

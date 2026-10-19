@@ -6,6 +6,7 @@ import {
   Settings2,
   MessageSquareMore,
   Megaphone,
+  UsersRound,
   WalletCards,
 } from "lucide-react";
 
@@ -15,6 +16,7 @@ const navigation = [
   { href: "/dashboard", label: "Overview", icon: PanelsTopLeft },
   { href: "/dashboard/analytics", label: "Analytics", icon: BarChart3 },
   { href: "/dashboard/inbox", label: "Inbox", icon: MessageSquareMore },
+  { href: "/dashboard/contacts", label: "Contacts", icon: UsersRound },
   { href: "/dashboard/payments", label: "Payments", icon: WalletCards },
   { href: "/dashboard/subscriptions", label: "Subscriptions", icon: BadgeCheck },
   { href: "/dashboard/broadcasts", label: "Broadcasts", icon: Megaphone },
@@ -63,7 +65,16 @@ export function AppShell({
             ))}
           </nav>
         </aside>
-        <main className="min-w-0 flex-1">{children}</main>
+        <main className="min-w-0 flex-1">
+          <nav className="mb-4 flex gap-2 overflow-x-auto rounded-2xl bg-zinc-950 p-2 text-white lg:hidden" aria-label="Dashboard navigation">
+            {navigation.map(({ href, label, icon: Icon }) => (
+              <Link key={href} href={href} className="flex shrink-0 items-center gap-2 rounded-xl px-3 py-2 text-xs text-zinc-200 hover:bg-white/10">
+                <Icon className="size-4" /> {label}
+              </Link>
+            ))}
+          </nav>
+          {children}
+        </main>
       </div>
     </div>
   );

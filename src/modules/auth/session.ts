@@ -7,7 +7,7 @@ export async function requireSession() {
   const session = await auth();
 
   if (!session?.user) {
-    redirect("/login");
+    redirect("/admin/login");
   }
 
   return session;

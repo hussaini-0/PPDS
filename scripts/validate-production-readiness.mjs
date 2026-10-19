@@ -39,6 +39,7 @@ const requiredEnvKeys = [
   "WHATSAPP_PHONE_NUMBER_ID",
   "WHATSAPP_BUSINESS_ACCOUNT_ID",
   "WHATSAPP_VERIFY_TOKEN",
+  "WHATSAPP_PUBLIC_NUMBER",
   "AI_PROVIDER",
   "AI_API_KEY",
   "AI_MODEL",
@@ -150,6 +151,7 @@ if (process.argv.includes("--production")) {
       "WHATSAPP_PHONE_NUMBER_ID",
       "WHATSAPP_BUSINESS_ACCOUNT_ID",
       "WHATSAPP_VERIFY_TOKEN",
+      "WHATSAPP_PUBLIC_NUMBER",
     ]) {
       if (!values[key] || /replace|example|change-me|dev-verify-token/i.test(values[key])) {
         failures.push(`Live integration value ${key} is missing or still a placeholder.`);

@@ -13,7 +13,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   trustHost: true,
   useSecureCookies: env.NODE_ENV === "production",
   pages: {
-    signIn: "/login",
+    signIn: "/admin/login",
   },
   providers: [
     Credentials({

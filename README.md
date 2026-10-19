@@ -74,8 +74,7 @@ These credentials are for local seeded development only.
 
 ## Website CMS
 
-- Customer WhatsApp access is available at `/login`; configure `WHATSAPP_PUBLIC_NUMBER` to render the conversation QR code and public support links.
-- Staff authentication is separate at `/admin/login` and is not linked from the public storefront.
+- Staff authentication is available only at `/admin/login` and is not linked from the public storefront.
 - Open `/dashboard/cms` with the seeded owner account.
 - Create and publish categories, products, software packages, FAQs, testimonials, and editable page content.
 - Review project enquiries and newsletter subscriptions.
@@ -88,7 +87,7 @@ These credentials are for local seeded development only.
 - Set `INTEGRATION_MODE=live`.
 - Provide official Meta and WhatsApp credentials through environment variables.
 - Inbound webhooks are signature-verified and outbound bot, owner, follow-up, and broadcast messages use the WhatsApp Cloud API.
-- The customer QR opens the official business conversation; it does not authenticate a WhatsApp Web session or expose customer credentials.
+- Public WhatsApp links open the official business conversation; WhatsApp account connection and bot administration remain restricted to authenticated staff.
 - Use `DEPLOYMENT.md` and `.env.production.example` for the release procedure.
 
 ## Known limitations as of October 18, 2026

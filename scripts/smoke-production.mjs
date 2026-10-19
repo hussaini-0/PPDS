@@ -17,14 +17,14 @@ if (!health.ok) throw new Error(`Health check failed with HTTP ${health.status}.
 const healthBody = await health.json();
 if (healthBody.status !== "ok") throw new Error("Health response is not healthy.");
 
-for (const path of ["/", "/products", "/software-development", "/project-request", "/login"]) {
+for (const path of ["/", "/products", "/software-development", "/project-request"]) {
   const response = await request(path);
   if (!response.ok) throw new Error(`${path} failed with HTTP ${response.status}.`);
 }
 
 const protectedPage = await request("/dashboard/cms");
-if (!protectedPage.ok || new URL(protectedPage.url).pathname !== "/login") {
-  throw new Error("Unauthenticated CMS access did not redirect to /login.");
+if (!protectedPage.ok || new URL(protectedPage.url).pathname !== "/admin/login") {
+  throw new Error("Unauthenticated CMS access did not redirect to /admin/login.");
 }
 
 const verifyToken = process.env.WHATSAPP_VERIFY_TOKEN;

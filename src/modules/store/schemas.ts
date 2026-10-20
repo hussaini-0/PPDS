@@ -4,6 +4,7 @@ export const checkoutSchema = z.object({
   productId: z.string().min(1),
   paymentMethodId: z.string().min(1, "Select a payment method."),
   referenceNumber: z.string().trim().max(120).optional(),
+  acceptTerms: z.literal("on", { error: "You must accept the Terms of Service." }),
 });
 
 export const fulfillmentSchema = z

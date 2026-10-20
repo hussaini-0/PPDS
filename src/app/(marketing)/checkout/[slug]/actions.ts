@@ -15,6 +15,7 @@ export async function submitCheckoutAction(_state: CheckoutState, formData: Form
     productId: formData.get("productId"),
     paymentMethodId: formData.get("paymentMethodId"),
     referenceNumber: formData.get("referenceNumber") || undefined,
+    acceptTerms: formData.get("acceptTerms"),
   });
   const proofFile = formData.get("proofFile");
   if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Check the payment details." };

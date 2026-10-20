@@ -1019,6 +1019,8 @@ model StoreOrder {
   paymentMethodId     String?
   referenceNumber     String?
   paymentProofFileId  String?             @unique
+  termsVersion        String?
+  termsAcceptedAt     DateTime?
   rejectionReason     String?
   submittedAt         DateTime?
   reviewedAt          DateTime?

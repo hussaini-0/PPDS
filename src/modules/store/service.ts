@@ -11,14 +11,17 @@ export async function createStoreOrder({
   productId,
   paymentMethodId,
   referenceNumber,
+  acceptTerms,
   proofFile,
 }: {
   accountId: string;
   productId: string;
   paymentMethodId: string;
   referenceNumber?: string;
+  acceptTerms: "on";
   proofFile: File;
 }) {
+  if (acceptTerms !== "on") throw new Error("Terms of Service acceptance is required.");
   const validation = validateProofFile({ mimeType: proofFile.type, size: proofFile.size });
   if (!validation.valid) throw new Error(validation.reason);
 
@@ -65,6 +68,8 @@ export async function createStoreOrder({
         paymentMethod: paymentMethod.name,
         paymentMethodId: paymentMethod.id,
         referenceNumber: referenceNumber || null,
+        termsVersion: "2026-10-21",
+        termsAcceptedAt: new Date(),
         paymentProofFileId: uploaded.id,
         submittedAt: new Date(),
       },

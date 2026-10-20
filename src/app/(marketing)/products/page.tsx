@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Search, SlidersHorizontal } from "lucide-react";
 
 import { ProductCard } from "@/components/marketing/product-card";
 import { mergePpdsCatalogue, PPDS_CATALOG_CATEGORIES } from "@/lib/ppds-catalog";
@@ -15,10 +16,30 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
   const catalogueCategories = storeCategories.length ? storeCategories : PPDS_CATALOG_CATEGORIES;
   const catalogueProducts = mergePpdsCatalogue(products.filter((product) => product.category.slug !== "software-services"));
   const filtered = catalogueProducts.filter((product) => {
-    if (product.category.slug === "software-services") return false;
     const matchesQuery = !query || `${product.name} ${product.shortDescription} ${product.category.name}`.toLowerCase().includes(query);
     const matchesCategory = !category || product.category.slug === category;
     return matchesQuery && matchesCategory;
   });
-  return <section className="mx-auto max-w-7xl px-4 py-16 lg:px-8"><p className="text-sm font-bold uppercase tracking-[.2em] text-cyan-700">Digital marketplace</p><h1 className="mt-3 text-5xl font-black tracking-[-.05em]">Useful tools, clearly presented.</h1><p className="mt-4 max-w-2xl leading-7 text-slate-600">Browse PPDS subscriptions. Availability, delivery, and account terms are confirmed before payment.</p><div className="mt-8 flex flex-wrap gap-2"><Link href="/products" className="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-bold">All</Link>{catalogueCategories.map((item) => <Link key={item.slug} href={`/products?category=${item.slug}`} className={`rounded-full border px-4 py-2 text-sm font-bold ${category === item.slug ? "border-cyan-500 bg-cyan-50" : "border-slate-300 bg-white"}`}>{item.name}</Link>)}</div><div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{filtered.map((product) => <ProductCard key={product.slug} product={product} currency={business.currency} />)}</div>{filtered.length === 0 ? <div className="mt-10 rounded-3xl border border-dashed border-slate-300 p-10 text-center text-slate-500">No services match this search.</div> : null}</section>;
+
+  return (
+    <main className="min-h-screen bg-[#f3f6fb]">
+      <section className="mx-auto max-w-[1500px] px-3 py-10 sm:px-5 lg:px-7">
+        <div className="rounded-[2rem] bg-[#07111f] p-6 text-white sm:p-10">
+          <p className="text-xs font-black uppercase tracking-[.22em] text-cyan-300">PPDS catalogue</p>
+          <h1 className="mt-3 text-4xl font-black tracking-[-.05em] sm:text-5xl">Find the right plan.</h1>
+          <p className="mt-3 max-w-2xl leading-7 text-slate-300">Search digital tools and compare published pricing. Delivery method and availability are confirmed before payment.</p>
+          <form action="/products" className="mt-7 flex max-w-3xl items-center rounded-full bg-white p-2 text-slate-950"><Search className="ml-3 size-5 text-slate-400" /><input name="q" defaultValue={q} className="min-w-0 flex-1 bg-transparent px-3 py-2.5 outline-none" placeholder="Search tools and subscriptions..." /><button className="rounded-full bg-[#0878b9] px-5 py-2.5 text-sm font-bold text-white">Search</button></form>
+        </div>
+
+        <div className="mt-5 flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none]">
+          <Link href={q ? `/products?q=${encodeURIComponent(q)}` : "/products"} className={`shrink-0 rounded-xl border px-4 py-2.5 text-sm font-bold ${!category ? "border-[#07111f] bg-[#07111f] text-white" : "border-slate-200 bg-white text-slate-600"}`}>All products</Link>
+          {catalogueCategories.map((item) => <Link key={item.slug} href={`/products?category=${item.slug}${q ? `&q=${encodeURIComponent(q)}` : ""}`} className={`shrink-0 rounded-xl border px-4 py-2.5 text-sm font-bold ${category === item.slug ? "border-[#07111f] bg-[#07111f] text-white" : "border-slate-200 bg-white text-slate-600"}`}>{item.name}</Link>)}
+        </div>
+
+        <div className="mt-6 flex items-center justify-between"><div><p className="text-xs font-black uppercase tracking-[.2em] text-cyan-700">Complete catalogue</p><h2 className="mt-2 text-3xl font-black tracking-tight">{filtered.length} matching tools</h2></div><SlidersHorizontal className="size-5 text-slate-400" /></div>
+        <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">{filtered.map((product) => <ProductCard key={product.slug} product={product} currency={business.currency} />)}</div>
+        {filtered.length === 0 ? <div className="mt-8 rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center text-slate-500">No services match this search.</div> : null}
+      </section>
+    </main>
+  );
 }

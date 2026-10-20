@@ -31,16 +31,12 @@ const groups: CatalogueGroup[] = [
   { slug: "smm-services", name: "Social Media Growth", description: "Likes, followers, views and engagement.", services: ["YouTube Growth", "Instagram Growth", "Facebook Growth", "TikTok Growth", "X Growth", "Telegram Growth", "Spotify Growth", "SoundCloud Growth", "LinkedIn Growth", "Twitch Growth"] },
 ];
 
-const iconNames: Record<string, string> = {
-  "Netflix": "netflix", "Prime Video": "primevideo", "Disney+": "disneyplus", "Hulu": "hulu", "ESPN": "espn", "Peacock TV": "peacock", "Paramount+": "paramountplus", "Showtime": "showtime", "HBO Max": "max", "Hotstar": "hotstar", "SonyLIV": "sonyliv", "Hoichoi": "hoichoi", "Zee5": "zee5", "Plex": "plex", "Gaana": "gaana", "Apple TV+": "appletv", "Apple Music": "applemusic", "Discovery+": "discoveryplus", "Crunchyroll": "crunchyroll", "YouTube Premium": "youtube", "Spotify Premium": "spotify", "Proton VPN": "protonvpn", "ExpressVPN": "expressvpn", "NordVPN": "nordvpn", "Surfshark VPN": "surfshark", "Windscribe VPN": "windscribe", "Private Internet Access": "privateinternetaccess", "CyberGhost VPN": "cyberghost", "Hotspot Shield": "hotspotshield", "IPVanish": "ipvanish", "Avast VPN": "avast", "Norton VPN": "norton", "Adobe Creative Cloud": "adobecreativecloud", "ChatGPT Plus": "openai", "CapCut Pro": "capcut", "Canva Pro": "canva", "Canva EDU": "canva", "PicsArt Pro": "picsart", "Grammarly Premium": "grammarly", "QuillBot Premium": "quillbot", "Freepik Premium": "freepik", "Perplexity Pro": "perplexity", "ElevenLabs": "elevenlabs", "HeyGen": "heygen", "TradingView Premium": "tradingview", "Envato Elements": "envato", "Microsoft 365": "microsoftoffice", "Windows 11 Key": "windows", "Coursera Plus": "coursera", "Google AI Pro": "google", "LinkedIn Premium": "linkedin", "YouTube Growth": "youtube", "Instagram Growth": "instagram", "Facebook Growth": "facebook", "TikTok Growth": "tiktok", "X Growth": "x", "Telegram Growth": "telegram", "Spotify Growth": "spotify", "SoundCloud Growth": "soundcloud", "LinkedIn Growth": "linkedin", "Twitch Growth": "twitch",
-};
-
 function slugify(value: string) {
   return value.toLowerCase().replace(/\+/g, " plus ").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 
 function logoFor(service: string) {
-  return `https://cdn.simpleicons.org/${iconNames[service] ?? "appstore"}`;
+  return `/products/catalog/${slugify(service)}.svg`;
 }
 
 export const PPDS_CATALOG: PpdsCatalogueItem[] = groups.flatMap((group, groupIndex) =>

@@ -1,0 +1,608 @@
+[
+  {
+    "service": "Netflix",
+    "file": "netflix.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/logos@latest/icons.json#netflix"
+  },
+  {
+    "service": "Prime Video",
+    "file": "prime-video.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/thesvg-color@latest/icons.json#prime-video"
+  },
+  {
+    "service": "Disney+",
+    "file": "disney-plus.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/thesvg-color@latest/icons.json#disney-plus"
+  },
+  {
+    "service": "Hulu",
+    "file": "hulu.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/selfhst@latest/icons.json#hulu"
+  },
+  {
+    "service": "ESPN",
+    "file": "espn.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/thesvg-color@latest/icons.json#espn"
+  },
+  {
+    "service": "Peacock TV",
+    "file": "peacock-tv.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/thesvg-color@latest/icons.json#peacock"
+  },
+  {
+    "service": "WWE",
+    "file": "wwe.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/simple-icons@latest/icons.json#wwe"
+  },
+  {
+    "service": "Paramount+",
+    "file": "paramount-plus.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/selfhst@latest/icons.json#paramount-plus"
+  },
+  {
+    "service": "Showtime",
+    "file": "showtime.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/simple-icons@latest/icons.json#showtime"
+  },
+  {
+    "service": "HBO Max",
+    "file": "hbo-max.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/thesvg-color@latest/icons.json#hbo-max"
+  },
+  {
+    "service": "Hotstar",
+    "file": "hotstar.svg",
+    "sourceType": "official-site-favicon",
+    "sourceUrl": "https://www.google.com/s2/favicons?domain=hotstar.com&sz=128"
+  },
+  {
+    "service": "SonyLIV",
+    "file": "sonyliv.svg",
+    "sourceType": "official-site-favicon",
+    "sourceUrl": "https://www.google.com/s2/favicons?domain=sonyliv.com&sz=128"
+  },
+  {
+    "service": "JioHotstar",
+    "file": "jiohotstar.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/arcticons@latest/icons.json#jiohotstar"
+  },
+  {
+    "service": "Hoichoi",
+    "file": "hoichoi.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/arcticons@latest/icons.json#hoichoi"
+  },
+  {
+    "service": "Masti OTT",
+    "file": "masti-ott.svg",
+    "sourceType": "generated-monogram",
+    "sourceUrl": null
+  },
+  {
+    "service": "MX Gold",
+    "file": "mx-gold.svg",
+    "sourceType": "official-site-favicon",
+    "sourceUrl": "https://www.google.com/s2/favicons?domain=mxplayer.in&sz=128"
+  },
+  {
+    "service": "Hungama OTT",
+    "file": "hungama-ott.svg",
+    "sourceType": "official-site-favicon",
+    "sourceUrl": "https://www.google.com/s2/favicons?domain=hungama.com&sz=128"
+  },
+  {
+    "service": "Kable One",
+    "file": "kable-one.svg",
+    "sourceType": "official-site-favicon",
+    "sourceUrl": "https://www.google.com/s2/favicons?domain=kableone.com&sz=128"
+  },
+  {
+    "service": "Hilal Play",
+    "file": "hilal-play.svg",
+    "sourceType": "official-site-favicon",
+    "sourceUrl": "https://www.google.com/s2/favicons?domain=hilalplay.com&sz=128"
+  },
+  {
+    "service": "Lionsgate Play",
+    "file": "lionsgate-play.svg",
+    "sourceType": "official-site-favicon",
+    "sourceUrl": "https://www.google.com/s2/favicons?domain=lionsgateplay.com&sz=128"
+  },
+  {
+    "service": "Zee5",
+    "file": "zee5.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/arcticons@latest/icons.json#zee5"
+  },
+  {
+    "service": "Plex",
+    "file": "plex.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/thesvg-color@latest/icons.json#plex"
+  },
+  {
+    "service": "Gaana",
+    "file": "gaana.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/arcticons@latest/icons.json#gaana"
+  },
+  {
+    "service": "Eros Now",
+    "file": "eros-now.svg",
+    "sourceType": "official-site-favicon",
+    "sourceUrl": "https://www.google.com/s2/favicons?domain=erosnow.com&sz=128"
+  },
+  {
+    "service": "Cricbuzz Premium",
+    "file": "cricbuzz-premium.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/arcticons@latest/icons.json#cricbuzz"
+  },
+  {
+    "service": "Rakuten Viki",
+    "file": "rakuten-viki.svg",
+    "sourceType": "official-site-favicon",
+    "sourceUrl": "https://www.google.com/s2/favicons?domain=viki.com&sz=128"
+  },
+  {
+    "service": "Apple TV+",
+    "file": "apple-tv-plus.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/thesvg-color@latest/icons.json#apple-tv"
+  },
+  {
+    "service": "Apple Music",
+    "file": "apple-music.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/thesvg-color@latest/icons.json#apple-music"
+  },
+  {
+    "service": "Discovery+",
+    "file": "discovery-plus.svg",
+    "sourceType": "official-site-favicon",
+    "sourceUrl": "https://www.google.com/s2/favicons?domain=discoveryplus.com&sz=128"
+  },
+  {
+    "service": "Curiosity Stream",
+    "file": "curiosity-stream.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/arcticons@latest/icons.json#curiositystream"
+  },
+  {
+    "service": "Crunchyroll",
+    "file": "crunchyroll.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/thesvg-color@latest/icons.json#crunchyroll"
+  },
+  {
+    "service": "Chaupal",
+    "file": "chaupal.svg",
+    "sourceType": "generated-monogram",
+    "sourceUrl": null
+  },
+  {
+    "service": "ShemarooMe",
+    "file": "shemaroome.svg",
+    "sourceType": "official-site-favicon",
+    "sourceUrl": "https://www.google.com/s2/favicons?domain=shemaroome.com&sz=128"
+  },
+  {
+    "service": "ALTBalaji",
+    "file": "altbalaji.svg",
+    "sourceType": "generated-monogram",
+    "sourceUrl": null
+  },
+  {
+    "service": "Ullu",
+    "file": "ullu.svg",
+    "sourceType": "official-site-favicon",
+    "sourceUrl": "https://www.google.com/s2/favicons?domain=ullu.app&sz=128"
+  },
+  {
+    "service": "Atrangii",
+    "file": "atrangii.svg",
+    "sourceType": "official-site-favicon",
+    "sourceUrl": "https://www.google.com/s2/favicons?domain=atrangii.in&sz=128"
+  },
+  {
+    "service": "PrimeShots",
+    "file": "primeshots.svg",
+    "sourceType": "official-site-favicon",
+    "sourceUrl": "https://www.google.com/s2/favicons?domain=primeshots.app&sz=128"
+  },
+  {
+    "service": "Hotflix",
+    "file": "hotflix.svg",
+    "sourceType": "generated-monogram",
+    "sourceUrl": null
+  },
+  {
+    "service": "Vivamax",
+    "file": "vivamax.svg",
+    "sourceType": "official-site-favicon",
+    "sourceUrl": "https://www.google.com/s2/favicons?domain=vivamax.net&sz=128"
+  },
+  {
+    "service": "YouTube Premium",
+    "file": "youtube-premium.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/logos@latest/icons.json#youtube"
+  },
+  {
+    "service": "Tapmad",
+    "file": "tapmad.svg",
+    "sourceType": "official-site-favicon",
+    "sourceUrl": "https://www.google.com/s2/favicons?domain=tapmad.com&sz=128"
+  },
+  {
+    "service": "Spotify Premium",
+    "file": "spotify-premium.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/logos@latest/icons.json#spotify"
+  },
+  {
+    "service": "Proton VPN",
+    "file": "proton-vpn.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/thesvg-color@latest/icons.json#proton-vpn"
+  },
+  {
+    "service": "ExpressVPN",
+    "file": "expressvpn.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/thesvg-color@latest/icons.json#expressvpn"
+  },
+  {
+    "service": "NordVPN",
+    "file": "nordvpn.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/thesvg-color@latest/icons.json#nordvpn"
+  },
+  {
+    "service": "Surfshark VPN",
+    "file": "surfshark-vpn.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/thesvg-color@latest/icons.json#surfshark"
+  },
+  {
+    "service": "Windscribe VPN",
+    "file": "windscribe-vpn.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/arcticons@latest/icons.json#windscribevpn"
+  },
+  {
+    "service": "Private Internet Access",
+    "file": "private-internet-access.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/thesvg-color@latest/icons.json#private-internet-access"
+  },
+  {
+    "service": "CyberGhost VPN",
+    "file": "cyberghost-vpn.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/arcticons@latest/icons.json#cyberghost"
+  },
+  {
+    "service": "Hotspot Shield",
+    "file": "hotspot-shield.svg",
+    "sourceType": "official-site-favicon",
+    "sourceUrl": "https://www.google.com/s2/favicons?domain=hotspotshield.com&sz=128"
+  },
+  {
+    "service": "IPVanish",
+    "file": "ipvanish.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/selfhst@latest/icons.json#ipvanish"
+  },
+  {
+    "service": "Avast VPN",
+    "file": "avast-vpn.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/thesvg-color@latest/icons.json#avast"
+  },
+  {
+    "service": "Norton VPN",
+    "file": "norton-vpn.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/thesvg-color@latest/icons.json#norton"
+  },
+  {
+    "service": "IPTV Rolex",
+    "file": "iptv-rolex.svg",
+    "sourceType": "generated-monogram",
+    "sourceUrl": null
+  },
+  {
+    "service": "BosTV",
+    "file": "bostv.svg",
+    "sourceType": "generated-monogram",
+    "sourceUrl": null
+  },
+  {
+    "service": "Opplex",
+    "file": "opplex.svg",
+    "sourceType": "generated-monogram",
+    "sourceUrl": null
+  },
+  {
+    "service": "Bravo IPTV",
+    "file": "bravo-iptv.svg",
+    "sourceType": "generated-monogram",
+    "sourceUrl": null
+  },
+  {
+    "service": "Geo IPTV",
+    "file": "geo-iptv.svg",
+    "sourceType": "generated-monogram",
+    "sourceUrl": null
+  },
+  {
+    "service": "StarShare",
+    "file": "starshare.svg",
+    "sourceType": "generated-monogram",
+    "sourceUrl": null
+  },
+  {
+    "service": "B1G IPTV",
+    "file": "b1g-iptv.svg",
+    "sourceType": "generated-monogram",
+    "sourceUrl": null
+  },
+  {
+    "service": "5G Live",
+    "file": "5g-live.svg",
+    "sourceType": "generated-monogram",
+    "sourceUrl": null
+  },
+  {
+    "service": "Zain TV",
+    "file": "zain-tv.svg",
+    "sourceType": "generated-monogram",
+    "sourceUrl": null
+  },
+  {
+    "service": "Mega IPTV",
+    "file": "mega-iptv.svg",
+    "sourceType": "generated-monogram",
+    "sourceUrl": null
+  },
+  {
+    "service": "Trex IPTV",
+    "file": "trex-iptv.svg",
+    "sourceType": "generated-monogram",
+    "sourceUrl": null
+  },
+  {
+    "service": "Strong 8K",
+    "file": "strong-8k.svg",
+    "sourceType": "generated-monogram",
+    "sourceUrl": null
+  },
+  {
+    "service": "Hot Player",
+    "file": "hot-player.svg",
+    "sourceType": "generated-monogram",
+    "sourceUrl": null
+  },
+  {
+    "service": "Adobe Creative Cloud",
+    "file": "adobe-creative-cloud.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/thesvg-color@latest/icons.json#adobe-creative-cloud"
+  },
+  {
+    "service": "ChatGPT Plus",
+    "file": "chatgpt-plus.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/selfhst@latest/icons.json#chatgpt"
+  },
+  {
+    "service": "CapCut Pro",
+    "file": "capcut-pro.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/thesvg-color@latest/icons.json#capcut"
+  },
+  {
+    "service": "Canva Pro",
+    "file": "canva-pro.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/thesvg-color@latest/icons.json#canva"
+  },
+  {
+    "service": "Canva EDU",
+    "file": "canva-edu.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/thesvg-color@latest/icons.json#canva"
+  },
+  {
+    "service": "PicsArt Pro",
+    "file": "picsart-pro.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/thesvg-color@latest/icons.json#picsart"
+  },
+  {
+    "service": "Filmora 14",
+    "file": "filmora-14.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/thesvg-color@latest/icons.json#wondershare-filmora"
+  },
+  {
+    "service": "Grammarly Premium",
+    "file": "grammarly-premium.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/logos@latest/icons.json#grammarly"
+  },
+  {
+    "service": "QuillBot Premium",
+    "file": "quillbot-premium.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/arcticons@latest/icons.json#quillbot"
+  },
+  {
+    "service": "Freepik Premium",
+    "file": "freepik-premium.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/thesvg-color@latest/icons.json#freepik"
+  },
+  {
+    "service": "Jenni AI",
+    "file": "jenni-ai.svg",
+    "sourceType": "official-site-favicon",
+    "sourceUrl": "https://www.google.com/s2/favicons?domain=jenni.ai&sz=128"
+  },
+  {
+    "service": "Grok AI",
+    "file": "grok-ai.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/logos@latest/icons.json#grok"
+  },
+  {
+    "service": "Perplexity Pro",
+    "file": "perplexity-pro.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/logos@latest/icons.json#perplexity"
+  },
+  {
+    "service": "Muse AI",
+    "file": "muse-ai.svg",
+    "sourceType": "official-site-favicon",
+    "sourceUrl": "https://www.google.com/s2/favicons?domain=muse.ai&sz=128"
+  },
+  {
+    "service": "ElevenLabs",
+    "file": "elevenlabs.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/logos@latest/icons.json#elevenlabs"
+  },
+  {
+    "service": "HeyGen",
+    "file": "heygen.svg",
+    "sourceType": "official-site-favicon",
+    "sourceUrl": "https://www.google.com/s2/favicons?domain=heygen.com&sz=128"
+  },
+  {
+    "service": "Higgsfield",
+    "file": "higgsfield.svg",
+    "sourceType": "official-site-favicon",
+    "sourceUrl": "https://www.google.com/s2/favicons?domain=higgsfield.ai&sz=128"
+  },
+  {
+    "service": "VidiQ Boost",
+    "file": "vidiq-boost.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/thesvg-color@latest/icons.json#vidiq"
+  },
+  {
+    "service": "TradingView Premium",
+    "file": "tradingview-premium.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/thesvg-color@latest/icons.json#tradingview"
+  },
+  {
+    "service": "Envato Elements",
+    "file": "envato-elements.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/logos@latest/icons.json#envato"
+  },
+  {
+    "service": "Microsoft 365",
+    "file": "microsoft-365.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/selfhst@latest/icons.json#microsoft-365"
+  },
+  {
+    "service": "Windows 11 Key",
+    "file": "windows-11-key.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/thesvg-color@latest/icons.json#windows"
+  },
+  {
+    "service": "Coursera Plus",
+    "file": "coursera-plus.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/logos@latest/icons.json#coursera"
+  },
+  {
+    "service": "Google AI Pro",
+    "file": "google-ai-pro.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/logos@latest/icons.json#google-gemini"
+  },
+  {
+    "service": "LinkedIn Premium",
+    "file": "linkedin-premium.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/logos@latest/icons.json#linkedin"
+  },
+  {
+    "service": "YouTube Growth",
+    "file": "youtube-growth.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/logos@latest/icons.json#youtube"
+  },
+  {
+    "service": "Instagram Growth",
+    "file": "instagram-growth.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/logos@latest/icons.json#instagram-icon"
+  },
+  {
+    "service": "Facebook Growth",
+    "file": "facebook-growth.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/logos@latest/icons.json#facebook"
+  },
+  {
+    "service": "TikTok Growth",
+    "file": "tiktok-growth.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/logos@latest/icons.json#tiktok-icon"
+  },
+  {
+    "service": "X Growth",
+    "file": "x-growth.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/simple-icons@latest/icons.json#x"
+  },
+  {
+    "service": "Telegram Growth",
+    "file": "telegram-growth.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/logos@latest/icons.json#telegram"
+  },
+  {
+    "service": "Spotify Growth",
+    "file": "spotify-growth.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/logos@latest/icons.json#spotify"
+  },
+  {
+    "service": "SoundCloud Growth",
+    "file": "soundcloud-growth.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/logos@latest/icons.json#soundcloud"
+  },
+  {
+    "service": "LinkedIn Growth",
+    "file": "linkedin-growth.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/logos@latest/icons.json#linkedin"
+  },
+  {
+    "service": "Twitch Growth",
+    "file": "twitch-growth.svg",
+    "sourceType": "iconify",
+    "sourceUrl": "https://unpkg.com/@iconify-json/logos@latest/icons.json#twitch"
+  }
+]

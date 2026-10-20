@@ -41,7 +41,7 @@ export default async function HomePage() {
   const whatsAppUrl = getPublicWhatsAppUrl();
 
   return (
-    <>
+    <div className="flex flex-col">
       <section className="relative overflow-hidden border-b border-slate-200">
         <div className="absolute inset-0 bg-[linear-gradient(rgba(7,17,31,.045)_1px,transparent_1px),linear-gradient(90deg,rgba(7,17,31,.045)_1px,transparent_1px)] bg-[size:42px_42px]" />
         <div className="relative mx-auto grid max-w-7xl gap-12 px-4 py-20 lg:grid-cols-[1.05fr_.95fr] lg:px-8 lg:py-28">
@@ -67,7 +67,7 @@ export default async function HomePage() {
 
       <section className="mx-auto max-w-7xl px-4 py-16 lg:px-8"><div className="flex items-end justify-between gap-4"><div><p className="text-sm font-bold uppercase tracking-[.2em] text-amber-700">Browse by need</p><h2 className="mt-3 text-4xl font-black tracking-[-.04em]">Find your next advantage</h2></div><Link href="/products" className="hidden items-center gap-2 font-bold sm:flex">All categories <ArrowRight className="size-4" /></Link></div><div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{catalogueCategories.slice(0, 8).map((category, index) => <Link key={category.slug} href={`/products?category=${category.slug}`} className="group rounded-2xl border border-slate-200 bg-white p-5 transition hover:border-amber-400 hover:bg-amber-50"><div className="flex items-center justify-between"><span className="grid size-11 place-items-center rounded-xl bg-slate-100 font-black text-slate-700">{category.icon ?? String(index + 1).padStart(2, "0")}</span><ArrowRight className="size-4 transition group-hover:translate-x-1" /></div><h3 className="mt-5 font-bold">{category.name}</h3><p className="mt-2 text-sm leading-6 text-slate-500">{category.description}</p></Link>)}</div></section>
 
-      <section className="overflow-hidden bg-[#090b10] py-5 text-white sm:py-8">
+      <section className="order-first overflow-hidden bg-[#090b10] py-5 text-white sm:py-8">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           <div className="rounded-[2rem] border border-white/10 bg-[radial-gradient(circle_at_88%_8%,rgba(26,199,216,.18),transparent_27%),linear-gradient(135deg,rgba(255,255,255,.055),rgba(255,255,255,.015))] p-5 shadow-2xl shadow-black/20 sm:p-7">
             <div className="flex flex-col gap-6 border-b border-white/10 pb-6 lg:flex-row lg:items-end lg:justify-between">
@@ -108,6 +108,6 @@ export default async function HomePage() {
 
       <section className="mx-auto max-w-7xl px-4 pb-20 lg:px-8"><div className="grid overflow-hidden rounded-[2.5rem] bg-emerald-400 lg:grid-cols-[1fr_.8fr]"><div className="p-8 md:p-12"><p className="text-sm font-bold uppercase tracking-[.2em] text-emerald-950/70">One conversation away</p><h2 className="mt-4 text-4xl font-black tracking-[-.04em]">Not sure what you need?</h2><p className="mt-4 max-w-xl leading-7 text-emerald-950/75">Tell the PPDS WhatsApp bot what you are trying to achieve. It can answer from published products, packages, and FAQs, then bring in the owner when judgment is needed.</p><Link href={whatsAppUrl} className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#07111f] px-6 py-3 font-bold text-white"><MessageCircle className="size-4" /> Start on WhatsApp</Link></div><div className="grid place-items-center bg-[#07111f] p-10 text-white"><div className="w-full max-w-sm rounded-3xl border border-white/10 bg-white/5 p-5"><p className="text-xs text-slate-400">PPDS assistant</p><div className="mt-4 rounded-2xl rounded-tl-sm bg-white p-4 text-sm leading-6 text-slate-900">I can help you compare digital tools, understand software packages, and prepare a project enquiry using approved PPDS content.</div></div></div></div></section>
 
-    </>
+    </div>
   );
 }

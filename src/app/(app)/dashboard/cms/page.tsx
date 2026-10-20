@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/modules/auth/session";
 import { ProductManager } from "@/components/dashboard/product-manager";
 
-import { createCategoryAction, createFaqAction, createPackageAction, createTestimonialAction, savePageContentAction, setCmsStatusAction, updateInquiryStatusAction } from "./actions";
+import { createCategoryAction, createFaqAction, createPackageAction, createTestimonialAction, installPpdsCatalogueAction, savePageContentAction, setCmsStatusAction, updateInquiryStatusAction } from "./actions";
 
 const field = "w-full rounded-xl border border-zinc-300 bg-white px-3 py-2 text-sm";
 const statuses = ["DRAFT", "PUBLISHED", "ARCHIVED"];
@@ -29,6 +29,8 @@ export default async function CmsPage() {
   ]);
 
   return <div className="space-y-6"><section className="rounded-[2rem] bg-zinc-950 p-6 text-white"><p className="text-xs font-bold uppercase tracking-[.25em] text-amber-300">Website control center</p><h1 className="mt-3 text-3xl font-semibold">CMS and bot-approved content</h1><p className="mt-2 max-w-3xl text-sm text-zinc-300">Only published products, packages, and FAQs appear publicly or become available to the WhatsApp bot.</p><div className="mt-5 flex flex-wrap gap-3 text-sm"><Badge tone="warning">{products.length} products</Badge><Badge tone="success">{packages.length} packages</Badge><Badge>{inquiries.length} enquiries</Badge><Badge>{subscribers} subscribers</Badge></div></section>
+
+  <Card><div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center"><div><h2 className="text-xl font-semibold">PPDS service catalogue</h2><p className="mt-1 text-sm text-zinc-600">Install the fixed catalogue once. Every service starts at PKR 999; edit any product price below afterwards.</p></div><form action={installPpdsCatalogueAction}><button className="rounded-xl bg-cyan-500 px-4 py-2.5 text-sm font-bold text-zinc-950 hover:bg-cyan-400">Install / refresh catalogue</button></form></div></Card>
 
   <Card><h2 className="text-xl font-semibold">Project enquiries</h2><div className="mt-5 grid gap-3">{inquiries.map((item) => <article key={item.id} className="rounded-2xl border border-zinc-200 p-4"><div className="flex flex-wrap justify-between gap-4"><div><p className="font-medium">{item.fullName} · {item.serviceRequired}</p><p className="mt-1 text-sm text-zinc-600">{item.email} · {item.whatsappNumber} · {formatDate(item.createdAt)}</p><p className="mt-3 max-w-3xl text-sm">{item.projectDescription}</p>{item.briefFile ? <p className="mt-2 text-xs text-zinc-500">Brief: {item.briefFile.originalName}</p> : null}</div><form action={updateInquiryStatusAction} className="flex items-start gap-2"><input type="hidden" name="id" value={item.id}/><select name="status" defaultValue={item.status} className={field}>{["NEW","REVIEWING","QUOTED","WON","LOST","CLOSED"].map((status) => <option key={status}>{status}</option>)}</select><button className="rounded-xl bg-zinc-900 px-3 py-2 text-sm font-bold text-white">Update</button></form></div></article>)}{!inquiries.length ? <p className="rounded-2xl border border-dashed border-zinc-300 p-6 text-sm text-zinc-500">No project enquiries yet.</p> : null}</div></Card>
 

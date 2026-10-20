@@ -13,6 +13,7 @@ export function ProductCard({ product, currency }: {
     compareAtPrice: { toString(): string } | number | null;
     badge: string | null;
     imageUrl: string | null;
+    logoUrl?: string | null;
     category: { name: string };
   };
   currency: string;
@@ -30,6 +31,8 @@ export function ProductCard({ product, currency }: {
           <ProductMedia src={product.imageUrl} alt={`${product.name} product image`} sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" />
         ) : product.imageUrl ? (
           <ProductMedia src={product.imageUrl} alt={`${product.name} product image`} sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" />
+        ) : product.logoUrl ? (
+          <ProductMedia src={product.logoUrl} alt={`${product.name} logo`} fit="contain" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" />
         ) : (
           <><div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(24,199,216,.35),transparent_30%),linear-gradient(135deg,#101820,#17415a)]" /><span className="relative text-5xl font-black tracking-[-0.08em] text-white/90">{product.name.slice(0, 2).toUpperCase()}</span></>
         )}

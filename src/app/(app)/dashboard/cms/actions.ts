@@ -8,6 +8,7 @@ import { hasPermission } from "@/modules/auth/permissions";
 import { requireSession } from "@/modules/auth/session";
 import { categorySchema, developmentPackageSchema, faqSchema, productSchema, testimonialSchema } from "@/modules/cms/schemas";
 import { deletePublicProductImage, savePublicProductImage } from "@/server/storage/public-assets";
+import { PPDS_CATALOG, PPDS_CATALOG_CATEGORIES } from "@/lib/ppds-catalog";
 
 function lines(value: FormDataEntryValue | null) {
   return String(value ?? "").split(/\r?\n|,/).map((item) => item.trim()).filter(Boolean);
@@ -25,6 +26,42 @@ function refreshCms() {
   revalidatePath("/software-development");
   revalidatePath("/faqs");
   revalidatePath("/dashboard/cms");
+}
+
+export async function installPpdsCatalogueAction() {
+  const session = await cmsSession();
+  const businessId = session.user.businessId;
+
+  const categories = await Promise.all(PPDS_CATALOG_CATEGORIES.map((category) =>
+    prisma.productCategory.upsert({
+      where: { businessId_slug: { businessId, slug: category.slug } },
+      update: { name: category.name, description: category.description, icon: category.icon, sortOrder: category.sortOrder, status: "PUBLISHED" },
+      create: { businessId, ...category, status: "PUBLISHED" },
+    }),
+  ));
+  const categoryIds = new Map(categories.map((category) => [category.slug, category.id]));
+
+  await Promise.all(PPDS_CATALOG.map((service) => {
+    const { category, ...product } = service;
+    return prisma.product.upsert({
+      where: { businessId_slug: { businessId, slug: service.slug } },
+      update: {
+        categoryId: categoryIds.get(service.category.slug)!,
+        name: service.name,
+        shortDescription: service.shortDescription,
+        description: service.description,
+        logoUrl: service.logoUrl,
+        features: service.features,
+        isFeatured: service.isFeatured,
+        sortOrder: service.sortOrder,
+        status: "PUBLISHED",
+      },
+      create: { businessId, categoryId: categoryIds.get(category.slug)!, ...product },
+    });
+  }));
+
+  await prisma.auditLog.create({ data: { businessId, actorId: session.user.id, action: "ppds_catalogue_installed", entityType: "catalogue", entityId: "ppds-service-catalogue", afterState: { services: PPDS_CATALOG.length } } });
+  refreshCms();
 }
 
 export async function createCategoryAction(formData: FormData) {

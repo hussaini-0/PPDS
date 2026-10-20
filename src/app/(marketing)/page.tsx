@@ -1,14 +1,15 @@
 import Link from "next/link";
 import {
   ArrowRight,
+  ArrowUpRight,
   CreditCard,
   MessageCircle,
+  Search,
   ShieldCheck,
   Sparkles,
   Zap,
 } from "lucide-react";
 
-import { ProductCard } from "@/components/marketing/product-card";
 import { BrandLogo } from "@/components/marketing/brand-logo";
 import { ProductMedia } from "@/components/marketing/product-media";
 import { getStorefrontContent } from "@/modules/cms/service";
@@ -63,7 +64,40 @@ export default async function HomePage() {
 
       <section className="mx-auto max-w-7xl px-4 py-16 lg:px-8"><div className="flex items-end justify-between gap-4"><div><p className="text-sm font-bold uppercase tracking-[.2em] text-amber-700">Browse by need</p><h2 className="mt-3 text-4xl font-black tracking-[-.04em]">Find your next advantage</h2></div><Link href="/products" className="hidden items-center gap-2 font-bold sm:flex">All categories <ArrowRight className="size-4" /></Link></div><div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{storeCategories.slice(0, 8).map((category, index) => <Link key={category.id} href={`/products?category=${category.slug}`} className="group rounded-2xl border border-slate-200 bg-white p-5 transition hover:border-amber-400 hover:bg-amber-50"><div className="flex items-center justify-between"><span className="grid size-11 place-items-center rounded-xl bg-slate-100 font-black text-slate-700">{category.icon ?? String(index + 1).padStart(2, "0")}</span><ArrowRight className="size-4 transition group-hover:translate-x-1" /></div><h3 className="mt-5 font-bold">{category.name}</h3><p className="mt-2 text-sm leading-6 text-slate-500">{category.description}</p></Link>)}</div></section>
 
-      <section className="border-y border-slate-200 bg-white"><div className="mx-auto max-w-7xl px-4 py-16 lg:px-8"><div className="flex items-end justify-between gap-5"><div><p className="text-sm font-bold uppercase tracking-[.2em] text-cyan-700">Digital catalogue</p><h2 className="mt-3 text-4xl font-black tracking-[-.04em]">Tools ready for real work</h2><p className="mt-3 max-w-2xl text-slate-600">Compare useful digital products by category, price, and delivery terms.</p></div><Link href="/products" className="hidden items-center gap-2 font-bold sm:flex">View all tools <ArrowRight className="size-4" /></Link></div>{storeProducts.length ? <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{storeProducts.slice(0, 8).map((product) => <ProductCard key={product.id} product={product} currency={business.currency} />)}</div> : <div className="mt-8 rounded-3xl border border-dashed border-slate-300 p-10 text-center text-slate-500">Published tools will appear here after they are reviewed in the CMS.</div>}<Link href="/products" className="mt-8 inline-flex items-center gap-2 font-bold sm:hidden">View all tools <ArrowRight className="size-4" /></Link></div></section>
+      <section className="overflow-hidden bg-[#090b10] py-5 text-white sm:py-8">
+        <div className="mx-auto max-w-7xl px-4 lg:px-8">
+          <div className="rounded-[2rem] border border-white/10 bg-[radial-gradient(circle_at_88%_8%,rgba(26,199,216,.18),transparent_27%),linear-gradient(135deg,rgba(255,255,255,.055),rgba(255,255,255,.015))] p-5 shadow-2xl shadow-black/20 sm:p-7">
+            <div className="flex flex-col gap-6 border-b border-white/10 pb-6 lg:flex-row lg:items-end lg:justify-between">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[.22em] text-cyan-300">Digital catalogue</p>
+                <h2 className="mt-3 text-3xl font-black tracking-[-.045em] sm:text-4xl">Your workbench, ready.</h2>
+                <p className="mt-2 max-w-xl text-sm leading-6 text-slate-300">Essential subscriptions and tools, clearly priced and ready to compare.</p>
+              </div>
+              <div className="flex w-full flex-wrap gap-2 lg:w-auto">
+                <div className="flex min-w-[12rem] flex-1 items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-slate-400 lg:flex-none"><Search className="size-4" /> Browse tools</div>
+                <Link href="/products" className="inline-flex items-center gap-2 rounded-xl bg-cyan-300 px-4 py-2.5 text-sm font-bold text-slate-950 transition hover:bg-cyan-200">View all <ArrowRight className="size-4" /></Link>
+              </div>
+            </div>
+            <div className="mt-5 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none]">
+              <span className="shrink-0 rounded-full bg-white px-3.5 py-2 text-xs font-bold text-slate-950">All tools</span>
+              {storeCategories.slice(0, 6).map((category) => <Link key={category.id} href={`/products?category=${category.slug}`} className="shrink-0 rounded-full border border-white/10 bg-white/[.035] px-3.5 py-2 text-xs font-semibold text-slate-300 transition hover:border-cyan-300/60 hover:bg-white/10 hover:text-white">{category.name}</Link>)}
+            </div>
+            {storeProducts.length ? <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">{storeProducts.slice(0, 8).map((product) => {
+              const price = Number(product.price);
+              const compareAtPrice = product.compareAtPrice ? Number(product.compareAtPrice) : null;
+              const discount = compareAtPrice && compareAtPrice > price ? Math.round(((compareAtPrice - price) / compareAtPrice) * 100) : null;
+              return <Link key={product.id} href={`/products/${product.slug}`} className="group relative flex min-w-0 flex-col rounded-2xl border border-white/10 bg-[#12161f] p-3 transition hover:-translate-y-1 hover:border-cyan-300/70 hover:bg-[#161d28] hover:shadow-xl hover:shadow-cyan-950/20">
+                <div className="relative grid aspect-[1.45/1] place-items-center overflow-hidden rounded-xl border border-white/[.07] bg-[radial-gradient(circle_at_20%_10%,rgba(35,211,235,.22),transparent_38%),linear-gradient(145deg,#202838,#0e121a)]">
+                  {product.imageUrl ? <ProductMedia src={product.imageUrl} alt={`${product.name} product image`} sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw" /> : <span className="text-4xl font-black tracking-[-.08em] text-white/90">{productInitials(product.name)}</span>}
+                  {product.badge ? <span className="absolute left-2 top-2 rounded-md bg-cyan-300 px-2 py-1 text-[10px] font-black uppercase tracking-wide text-slate-950">{product.badge}</span> : null}
+                  {discount ? <span className="absolute right-2 top-2 rounded-md border border-emerald-300/20 bg-emerald-400/15 px-2 py-1 text-[10px] font-black text-emerald-200">-{discount}%</span> : null}
+                </div>
+                <div className="flex flex-1 flex-col px-1 pb-1 pt-4"><p className="text-[10px] font-bold uppercase tracking-[.16em] text-cyan-300">{product.category.name}</p><h3 className="mt-1.5 truncate text-base font-bold tracking-tight">{product.name}</h3><p className="mt-1.5 line-clamp-2 text-xs leading-5 text-slate-400">{product.shortDescription}</p><div className="mt-4 flex items-end justify-between gap-2"><div><p className="text-sm font-bold text-white">{new Intl.NumberFormat("en", { style: "currency", currency: business.currency }).format(price)}</p>{compareAtPrice ? <p className="mt-0.5 text-[11px] text-slate-500 line-through">{new Intl.NumberFormat("en", { style: "currency", currency: business.currency }).format(compareAtPrice)}</p> : null}</div><span className="grid size-9 place-items-center rounded-full border border-white/10 bg-white/5 text-slate-300 transition group-hover:border-cyan-300 group-hover:bg-cyan-300 group-hover:text-slate-950"><ArrowUpRight className="size-4" /></span></div></div>
+              </Link>;
+            })}</div> : <div className="mt-6 rounded-2xl border border-dashed border-white/20 p-10 text-center text-sm text-slate-400">Published tools will appear here after they are reviewed in the CMS.</div>}
+          </div>
+        </div>
+      </section>
 
       <section className="bg-[#18c7d8]"><div className="mx-auto grid max-w-7xl gap-8 px-4 py-16 lg:grid-cols-4 lg:px-8">{[["01","Choose","Pick a digital product or software service."],["02","Confirm","We confirm access, scope, price, and timeline."],["03","Deliver","Receive access or track project progress."],["04","Support","Get practical help after delivery."]].map(([number,title,copy]) => <div key={number}><p className="text-sm font-black">{number}</p><h3 className="mt-5 text-2xl font-black">{title}</h3><p className="mt-2 text-sm leading-6 text-cyan-950/75">{copy}</p></div>)}</div></section>
 

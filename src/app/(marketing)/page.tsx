@@ -2,28 +2,16 @@ import Link from "next/link";
 import {
   ArrowRight,
   ArrowUpRight,
-  CreditCard,
   MessageCircle,
   Search,
-  ShieldCheck,
-  Sparkles,
-  Zap,
 } from "lucide-react";
 
-import { BrandLogo } from "@/components/marketing/brand-logo";
 import { ProductMedia } from "@/components/marketing/product-media";
 import { getStorefrontContent } from "@/modules/cms/service";
 import { getPublicWhatsAppUrl } from "@/lib/whatsapp";
 import { mergePpdsCatalogue, PPDS_CATALOG_CATEGORIES } from "@/lib/ppds-catalog";
 
 export const dynamic = "force-dynamic";
-
-const heroAccents = ["bg-emerald-400", "bg-slate-200", "bg-orange-300", "bg-red-400", "bg-sky-400"];
-
-function formatProductNames(names: string[]) {
-  if (names.length < 2) return names[0] ?? "Premium digital subscriptions";
-  return `${names.slice(0, -1).join(", ")} & ${names.at(-1)}`;
-}
 
 function productInitials(name: string) {
   return name.split(/\s+/).slice(0, 2).map((word) => word[0]).join("").toUpperCase();
@@ -36,38 +24,41 @@ export default async function HomePage() {
   const storeProducts = mergePpdsCatalogue(configuredStoreProducts);
   const storeCategories = categories.filter((category) => category.slug !== "software-services");
   const catalogueCategories = storeCategories.length ? storeCategories : PPDS_CATALOG_CATEGORIES;
-  const heroProducts = storeProducts.filter((product) => product.isFeatured).slice(0, 5);
-  const heroTitle = heroProducts.length ? `${formatProductNames(heroProducts.map((product) => product.name))}.` : homepageContent?.title ?? "Premium digital subscriptions.";
+  const featuredProducts = storeProducts.filter((product) => product.isFeatured);
+  const heroProducts = (featuredProducts.length ? featuredProducts : storeProducts).slice(0, 6);
   const whatsAppUrl = getPublicWhatsAppUrl();
 
   return (
     <div className="flex flex-col">
-      <section className="relative overflow-hidden border-b border-slate-200">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(7,17,31,.045)_1px,transparent_1px),linear-gradient(90deg,rgba(7,17,31,.045)_1px,transparent_1px)] bg-[size:42px_42px]" />
-        <div className="relative mx-auto grid max-w-7xl gap-12 px-4 py-20 lg:grid-cols-[1.05fr_.95fr] lg:px-8 lg:py-28">
-          <div className="self-center">
-            <p className="inline-flex items-center gap-2 rounded-full border border-cyan-300 bg-cyan-50 px-4 py-2 text-xs font-bold uppercase tracking-[.2em] text-cyan-900"><Sparkles className="size-4" /> Subscription store</p>
-            <h1 className="mt-7 max-w-4xl text-4xl font-black leading-[.98] tracking-[-.055em] sm:text-6xl sm:tracking-[-.065em] lg:text-7xl">{heroTitle}</h1>
-            <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-600">{homepageContent?.summary ?? "Buy premium access to the digital tools you already use, with clear plans, confirmed duration, and WhatsApp support."}</p>
-            <div className="mt-9 flex flex-wrap gap-3"><Link href="/products" className="rounded-full bg-[#151719] px-6 py-3.5 font-bold text-white transition hover:bg-[#0c3442]">Browse subscriptions</Link><Link href="/software-development" className="rounded-full border border-cyan-300 bg-white px-6 py-3.5 font-bold transition hover:bg-cyan-50">Software development</Link></div>
-            <div className="mt-9 flex flex-wrap gap-6 text-sm font-semibold text-slate-600"><span className="flex items-center gap-2"><ShieldCheck className="size-4 text-emerald-600" /> Controlled delivery</span><span className="flex items-center gap-2"><MessageCircle className="size-4 text-emerald-600" /> WhatsApp support</span><span className="flex items-center gap-2"><Zap className="size-4 text-amber-600" /> Fast response</span></div>
+      <section className="relative overflow-hidden border-b border-slate-200 bg-[#eef3f8] px-4 pb-8 pt-7 lg:px-8 lg:pb-12">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div><p className="text-xs font-black uppercase tracking-[.24em] text-cyan-700">PPDS Store</p><h1 className="mt-2 text-3xl font-black tracking-[-.045em] sm:text-4xl">Premium tools and subscriptions</h1></div>
+            <Link href="/software-development" className="inline-flex items-center gap-2 text-sm font-bold text-slate-700 transition hover:text-cyan-700">Need custom software? <ArrowRight className="size-4" /></Link>
           </div>
-          <div className="relative min-h-[590px]">
-            <div className="absolute inset-4 rotate-3 rounded-[2.5rem] bg-[#18c7d8]" />
-            <div className="absolute inset-0 overflow-hidden rounded-[2.5rem] bg-[#151719] p-7 text-white shadow-2xl">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_10%,rgba(24,199,216,.32),transparent_28%),linear-gradient(rgba(255,255,255,.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.06)_1px,transparent_1px)] bg-[size:auto,34px_34px,34px_34px]" />
-              <div className="relative flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center"><BrandLogo size="hero" /><span className="rounded-full bg-cyan-400/15 px-3 py-1 text-xs text-cyan-200">Subscriptions available</span></div>
-              <div className="relative mt-6"><p className="text-xs font-bold uppercase tracking-[.2em] text-cyan-300">Popular tools</p><h2 className="mt-2 text-3xl font-black tracking-[-.04em]">Choose what you need.</h2></div>
-              {heroProducts.length ? <div className="relative mt-5 grid grid-cols-2 gap-3">{heroProducts.map((product, index) => <Link key={product.slug} href={`/products/${product.slug}`} className={`group flex min-w-0 flex-col items-start gap-2 rounded-2xl border border-white/10 bg-white/10 p-3 transition hover:border-cyan-300 hover:bg-white/15 sm:flex-row sm:items-center sm:gap-3 ${index === heroProducts.length - 1 && heroProducts.length % 2 === 1 ? "col-span-2" : ""}`}><span className={`relative grid size-10 shrink-0 place-items-center overflow-hidden rounded-xl ${heroAccents[index % heroAccents.length]} text-sm font-black text-slate-950`}>{product.logoUrl ? <ProductMedia src={product.logoUrl} alt={`${product.name} logo`} fit="contain" sizes="40px" /> : productInitials(product.name)}</span><span className="min-w-0"><strong className="block truncate text-sm sm:text-base">{product.name}</strong><span className="hidden text-xs text-slate-300 sm:block">{product.category.name}</span></span><ArrowRight className="ml-auto hidden size-4 shrink-0 text-slate-400 transition group-hover:translate-x-1 group-hover:text-cyan-300 sm:block" /></Link>)}</div> : <div className="relative mt-5 rounded-2xl border border-dashed border-white/20 p-5 text-sm text-slate-300">The PPDS service catalogue is ready.</div>}
-              <div className="relative mt-4 flex items-center gap-3 rounded-2xl bg-white p-4 text-slate-950"><span className="grid size-10 shrink-0 place-items-center rounded-full bg-cyan-100"><CreditCard className="size-5" /></span><div><p className="font-bold">Terms confirmed before payment</p><p className="text-xs text-slate-500">Plan, duration, delivery, then payment</p></div></div>
+          <div className="relative overflow-hidden rounded-[2rem] bg-[#07111f] px-5 py-8 text-white shadow-2xl shadow-slate-900/15 sm:px-9 sm:py-10 lg:min-h-[510px] lg:px-14 lg:py-12">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_82%_18%,rgba(24,199,216,.35),transparent_26%),radial-gradient(circle_at_68%_88%,rgba(245,158,11,.16),transparent_24%),linear-gradient(rgba(255,255,255,.055)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.055)_1px,transparent_1px)] bg-[size:auto,auto,42px_42px,42px_42px]" />
+            <div className="relative grid gap-9 lg:grid-cols-[1.08fr_.92fr] lg:items-center">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[.25em] text-cyan-300">Your digital toolkit</p>
+                <h2 className="mt-4 max-w-3xl text-5xl font-black leading-[.93] tracking-[-.06em] sm:text-6xl lg:text-7xl">The tools you need. <span className="text-cyan-300">Ready when you are.</span></h2>
+                <p className="mt-5 max-w-xl text-sm leading-6 text-slate-300 sm:text-base">{homepageContent?.summary ?? "Explore premium AI, creative, productivity, security, and entertainment subscriptions from one trusted technology partner."}</p>
+              </div>
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-2">{heroProducts.map((product, index) => <Link key={product.slug} href={`/products/${product.slug}`} className={`group relative min-h-32 overflow-hidden rounded-2xl border border-white/10 bg-white/[.07] p-4 backdrop-blur-sm transition hover:-translate-y-1 hover:border-cyan-300/70 hover:bg-white/[.12] ${index === 0 ? "sm:col-span-2 lg:col-span-1" : ""}`}><span className="relative grid size-12 place-items-center overflow-hidden rounded-xl bg-white p-1.5 shadow-lg">{product.logoUrl ? <ProductMedia src={product.logoUrl} alt={`${product.name} logo`} fit="contain" sizes="48px" /> : <span className="font-black text-slate-950">{productInitials(product.name)}</span>}</span><strong className="mt-4 block truncate text-sm sm:text-base">{product.name}</strong><span className="mt-1 block truncate text-[11px] text-slate-400">{product.category.name}</span><ArrowUpRight className="absolute right-3 top-3 size-4 text-slate-500 transition group-hover:text-cyan-300" /></Link>)}</div>
             </div>
+            <form action="/products" className="relative mt-8 flex items-center gap-2 rounded-2xl bg-white p-2 shadow-xl sm:rounded-full">
+              <Search className="ml-3 size-5 shrink-0 text-slate-500" />
+              <input name="q" aria-label="Search the PPDS catalogue" className="min-w-0 flex-1 bg-transparent px-1 py-2.5 text-sm text-slate-950 outline-none placeholder:text-slate-400 sm:text-base" placeholder="Search ChatGPT, Canva, Netflix, Adobe..." />
+              <button className="grid size-11 shrink-0 place-items-center rounded-xl bg-[#18c7d8] text-slate-950 transition hover:bg-cyan-300 sm:rounded-full" aria-label="Search catalogue"><ArrowRight className="size-5" /></button>
+            </form>
+            {heroProducts.length ? <div className="relative mt-4 flex flex-wrap items-center gap-2"><span className="mr-1 text-xs font-bold text-slate-400">Popular:</span>{heroProducts.slice(0, 5).map((product) => <Link key={product.slug} href={`/products/${product.slug}`} className="rounded-full border border-white/10 bg-white/[.06] px-3 py-1.5 text-xs font-semibold text-slate-200 transition hover:border-cyan-300/60 hover:bg-white/10">{product.name}</Link>)}</div> : null}
           </div>
         </div>
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-16 lg:px-8"><div className="flex items-end justify-between gap-4"><div><p className="text-sm font-bold uppercase tracking-[.2em] text-amber-700">Browse by need</p><h2 className="mt-3 text-4xl font-black tracking-[-.04em]">Find your next advantage</h2></div><Link href="/products" className="hidden items-center gap-2 font-bold sm:flex">All categories <ArrowRight className="size-4" /></Link></div><div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{catalogueCategories.slice(0, 8).map((category, index) => <Link key={category.slug} href={`/products?category=${category.slug}`} className="group rounded-2xl border border-slate-200 bg-white p-5 transition hover:border-amber-400 hover:bg-amber-50"><div className="flex items-center justify-between"><span className="grid size-11 place-items-center rounded-xl bg-slate-100 font-black text-slate-700">{category.icon ?? String(index + 1).padStart(2, "0")}</span><ArrowRight className="size-4 transition group-hover:translate-x-1" /></div><h3 className="mt-5 font-bold">{category.name}</h3><p className="mt-2 text-sm leading-6 text-slate-500">{category.description}</p></Link>)}</div></section>
 
-      <section className="order-first overflow-hidden bg-[#090b10] py-5 text-white sm:py-8">
+      <section className="overflow-hidden bg-[#090b10] py-5 text-white sm:py-8">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           <div className="rounded-[2rem] border border-white/10 bg-[radial-gradient(circle_at_88%_8%,rgba(26,199,216,.18),transparent_27%),linear-gradient(135deg,rgba(255,255,255,.055),rgba(255,255,255,.015))] p-5 shadow-2xl shadow-black/20 sm:p-7">
             <div className="flex flex-col gap-6 border-b border-white/10 pb-6 lg:flex-row lg:items-end lg:justify-between">

@@ -112,6 +112,21 @@ enum PaymentStatus {
   OVERDUE
 }
 
+enum StoreOrderStatus {
+  AWAITING_PAYMENT
+  PAYMENT_REVIEW
+  FULFILLMENT_PENDING
+  FULFILLED
+  REJECTED
+  CANCELLED
+}
+
+enum StoreCredentialStatus {
+  ACTIVE
+  REVOKED
+  EXPIRED
+}
+
 enum KnowledgeBaseCategory {
   PLAN
   PRICING
@@ -269,6 +284,10 @@ model Business {
   faqs                   Faq[]
   projectInquiries       ProjectInquiry[]
   newsletterSubscribers  NewsletterSubscriber[]
+  customerAccounts       CustomerAccount[]
+  storeOrders            StoreOrder[]
+  storeCredentials       StoreCredential[]
+  storePaymentMethods    StorePaymentMethod[]
 }
 
 model User {
@@ -291,6 +310,7 @@ model User {
   auditLogs                AuditLog[]
   sessions                 Session[]
   accounts                 Account[]
+  reviewedStoreOrders      StoreOrder[]         @relation("StoreOrderReviewedBy")
 
   @@unique([businessId, email])
   @@index([businessId, role])
@@ -322,6 +342,9 @@ model Customer {
   broadcastRecipients   BroadcastRecipient[]
   attributionEvents     AttributionEvent[]
   attentionItems        OwnerAttentionItem[]
+  account               CustomerAccount?
+  storeOrders           StoreOrder[]
+  storeCredentials      StoreCredential[]
 
   @@unique([businessId, normalizedPhoneNumber])
   @@index([businessId, source])
@@ -516,6 +539,7 @@ model UploadedFile {
   customer         Customer?        @relation(fields: [customerId], references: [id], onDelete: SetNull)
   payments         Payment[]
   projectInquiries ProjectInquiry[]
+  storeOrderProofs StoreOrder[]     @relation("StoreOrderProof")
 
   @@unique([businessId, storageKey])
 }
@@ -957,10 +981,98 @@ model Product {
   updatedAt        DateTime             @updatedAt
   business         Business             @relation(fields: [businessId], references: [id], onDelete: Cascade)
   category         ProductCategory      @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  storeOrders      StoreOrder[]
+  storeCredentials StoreCredential[]
 
   @@unique([businessId, slug])
   @@index([businessId, status, isFeatured, isBestSeller])
   @@index([categoryId, status])
+}
+
+model CustomerAccount {
+  id           String   @id @default(cuid())
+  businessId   String
+  customerId   String   @unique
+  email        String
+  passwordHash String
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  business     Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  customer     Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@unique([businessId, email])
+  @@index([businessId, isActive])
+}
+
+model StoreOrder {
+  id                  String              @id @default(cuid())
+  businessId          String
+  customerId          String
+  productId           String
+  status              StoreOrderStatus    @default(AWAITING_PAYMENT)
+  quantity            Int                 @default(1)
+  unitPrice           Decimal             @db.Decimal(12, 2)
+  total               Decimal             @db.Decimal(12, 2)
+  currency            String
+  paymentMethod       String
+  paymentMethodId     String?
+  referenceNumber     String?
+  paymentProofFileId  String?             @unique
+  rejectionReason     String?
+  submittedAt         DateTime?
+  reviewedAt          DateTime?
+  reviewedByUserId    String?
+  fulfilledAt         DateTime?
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  business            Business            @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  customer            Customer            @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  product             Product             @relation(fields: [productId], references: [id], onDelete: Restrict)
+  paymentMethodConfig StorePaymentMethod? @relation(fields: [paymentMethodId], references: [id], onDelete: SetNull)
+  paymentProofFile    UploadedFile?       @relation("StoreOrderProof", fields: [paymentProofFileId], references: [id])
+  reviewedByUser      User?               @relation("StoreOrderReviewedBy", fields: [reviewedByUserId], references: [id])
+  credential          StoreCredential?
+
+  @@index([businessId, status, createdAt])
+  @@index([customerId, createdAt])
+}
+
+model StorePaymentMethod {
+  id           String       @id @default(cuid())
+  businessId   String
+  name         String
+  instructions String
+  isActive     Boolean      @default(true)
+  sortOrder    Int          @default(0)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  business     Business     @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  orders       StoreOrder[]
+
+  @@unique([businessId, name])
+  @@index([businessId, isActive, sortOrder])
+}
+
+model StoreCredential {
+  id            String                @id @default(cuid())
+  businessId    String
+  customerId    String
+  productId     String
+  orderId       String                @unique
+  encryptedData String
+  instructions  String?
+  expiresAt     DateTime?
+  status        StoreCredentialStatus @default(ACTIVE)
+  createdAt     DateTime              @default(now())
+  updatedAt     DateTime              @updatedAt
+  business      Business              @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  customer      Customer              @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  product       Product               @relation(fields: [productId], references: [id], onDelete: Restrict)
+  order         StoreOrder            @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([customerId, status])
+  @@index([businessId, status])
 }
 
 model DevelopmentPackage {

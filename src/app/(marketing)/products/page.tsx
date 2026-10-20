@@ -27,7 +27,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
         <div className="rounded-[2rem] bg-[#07111f] p-6 text-white sm:p-10">
           <p className="text-xs font-black uppercase tracking-[.22em] text-cyan-300">PPDS catalogue</p>
           <h1 className="mt-3 text-4xl font-black tracking-[-.05em] sm:text-5xl">Find the right plan.</h1>
-          <p className="mt-3 max-w-2xl leading-7 text-slate-300">Search digital tools and compare published pricing. Delivery method and availability are confirmed before payment.</p>
+          <p className="mt-3 max-w-2xl leading-7 text-slate-300">Search digital tools, compare published pricing, and purchase directly through secure website checkout.</p>
           <form action="/products" className="mt-7 flex max-w-3xl items-center rounded-full bg-white p-2 text-slate-950"><Search className="ml-3 size-5 text-slate-400" /><input name="q" defaultValue={q} className="min-w-0 flex-1 bg-transparent px-3 py-2.5 outline-none" placeholder="Search tools and subscriptions..." /><button className="rounded-full bg-[#0878b9] px-5 py-2.5 text-sm font-bold text-white">Search</button></form>
         </div>
 

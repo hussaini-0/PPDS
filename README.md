@@ -1,6 +1,6 @@
 # PPDS
 
-Public digital-products and software-services website combined with a production-oriented WhatsApp-first operations platform.
+Digital-products and software-services storefront with website checkout, customer credential delivery, and a production-oriented WhatsApp operations platform.
 
 ## Product summary
 
@@ -9,6 +9,8 @@ Public digital-products and software-services website combined with a production
 - Manual payment-proof review before subscription activation
 - Broadcast, attribution, and Meta Ads reporting workflows
 - Public digital-product catalogue and software-development website
+- Customer registration, website checkout, order tracking, and encrypted credential delivery
+- Admin-managed payment methods, payment review, and storefront fulfillment
 - Owner CMS for products, packages, FAQs, testimonials, pages, and enquiries
 - WhatsApp bot answers grounded in published CMS content
 - Mock mode for local development and live mode for official provider integrations
@@ -69,6 +71,8 @@ These credentials are for local seeded development only.
 - The local seed creates published software packages, FAQs, and clearly labeled preview products. Review product commercial terms in `/dashboard/cms` before accepting live orders; sample testimonials remain drafts.
 - Software services are presented on `/software-development` and intentionally excluded from the digital-product category catalogue.
 - Product names, categories, prices, logos, card images, publication status, homepage visibility, and display order are managed in `/dashboard/cms`.
+- Store payment methods, order verification, and credential assignment are managed in `/dashboard/orders`.
+- Customer purchases and credentials are available only through `/account`; credentials are encrypted at rest with `ENCRYPTION_KEY` and are never sent through WhatsApp.
 - Mark a published product as `Show in homepage hero` to place it in the opening section. The first five are selected by display order; archiving, unchecking the hero option, or deleting a product removes it from that placement.
 - CMS media uploads accept PNG, JPEG, and WebP files up to 5 MB. Local development writes them to `public/uploads/products`; production uses the configured S3-compatible bucket and `PUBLIC_ASSET_BASE_URL`.
 
@@ -81,6 +85,14 @@ These credentials are for local seeded development only.
 - Only published CMS records appear publicly or become available to the WhatsApp bot.
 - Import potential customers from CSV at `/dashboard/contacts`. Required headers are `name` and `phone`; optional headers are `email`, `city`, `notes`, `tags`, and `marketing_consent`.
 - Imports normalize and deduplicate phone numbers, create `NEW` leads, and leave marketing consent disabled unless the CSV explicitly records consent.
+
+## Website commerce
+
+- Customers register or sign in at `/account` and buy a published product through `/checkout/[slug]`.
+- Checkout payment options are configured by staff in `/dashboard/orders`; no bank or wallet details are hardcoded.
+- Customers upload payment proof on the website. Staff review it, approve or reject it, and assign the purchased login, password, URL, or license key.
+- Fulfilled credentials appear only in the authenticated customer portal and are encrypted in PostgreSQL.
+- Automated card charging is not included until a payment gateway and its production credentials are selected.
 
 ## Live mode
 
@@ -98,4 +110,4 @@ These credentials are for local seeded development only.
 - Follow-up, subscription lifecycle, and broadcast worker entrypoints are available through npm scripts.
 - Local PostgreSQL and Redis migrations and application flows have been verified; production still requires separate managed services and production-only credentials.
 - Health checks verify PostgreSQL, Redis, security configuration, and reliability expectations.
-- The public cart intentionally confirms purchases through WhatsApp because online card payments are outside the product scope.
+- Website checkout supports configurable manual bank or wallet payment methods with proof review. Automated card charging requires a payment-gateway integration.

@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto";
-import { mkdir, writeFile } from "fs/promises";
+import { mkdir, readFile, writeFile } from "fs/promises";
 import path from "path";
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { GetObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
 import { env } from "@/lib/env";
 
@@ -15,6 +15,7 @@ export interface StorageProvider {
     storageKey: string;
     storageProvider: string;
   }>;
+  read(storageKey: string): Promise<Buffer>;
 }
 
 class LocalStorageProvider implements StorageProvider {
@@ -30,6 +31,13 @@ class LocalStorageProvider implements StorageProvider {
       storageKey,
       storageProvider: "local",
     };
+  }
+
+  async read(storageKey: string) {
+    const absoluteDir = path.resolve(env.FILE_STORAGE_PATH);
+    const absolutePath = path.resolve(absoluteDir, storageKey);
+    if (!absolutePath.startsWith(`${absoluteDir}${path.sep}`)) throw new Error("Invalid storage key.");
+    return readFile(absolutePath);
   }
 }
 
@@ -66,6 +74,13 @@ class S3StorageProvider implements StorageProvider {
     );
 
     return { storageKey, storageProvider: "s3" };
+  }
+
+  async read(storageKey: string) {
+    if (!env.S3_BUCKET) throw new Error("S3_BUCKET is required when FILE_STORAGE_PROVIDER=s3.");
+    const result = await this.client.send(new GetObjectCommand({ Bucket: env.S3_BUCKET, Key: storageKey }));
+    if (!result.Body) throw new Error("Stored file is empty.");
+    return Buffer.from(await result.Body.transformToByteArray());
   }
 }
 

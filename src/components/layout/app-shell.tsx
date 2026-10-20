@@ -8,6 +8,7 @@ import {
   Megaphone,
   UsersRound,
   WalletCards,
+  ShoppingBag,
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -18,6 +19,7 @@ const navigation = [
   { href: "/dashboard/inbox", label: "Inbox", icon: MessageSquareMore },
   { href: "/dashboard/contacts", label: "Contacts", icon: UsersRound },
   { href: "/dashboard/payments", label: "Payments", icon: WalletCards },
+  { href: "/dashboard/orders", label: "Store Orders", icon: ShoppingBag },
   { href: "/dashboard/subscriptions", label: "Subscriptions", icon: BadgeCheck },
   { href: "/dashboard/broadcasts", label: "Broadcasts", icon: Megaphone },
   { href: "/dashboard/meta", label: "Meta Ads", icon: BarChart3 },

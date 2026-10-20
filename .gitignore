@@ -16,6 +16,8 @@
 /.test-tmp/
 /.build-tmp/
 /ppds-*.png
+/output/
+/storage/
 
 # next.js
 /.next/

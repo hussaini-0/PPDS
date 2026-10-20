@@ -21,6 +21,10 @@ import {
 } from "../src/modules/settings/constants";
 
 async function main() {
+  await prisma.storeCredential.deleteMany();
+  await prisma.storeOrder.deleteMany();
+  await prisma.storePaymentMethod.deleteMany();
+  await prisma.customerAccount.deleteMany();
   await prisma.projectInquiry.deleteMany();
   await prisma.newsletterSubscriber.deleteMany();
   await prisma.product.deleteMany();
@@ -78,6 +82,14 @@ async function main() {
       passwordHash: await bcrypt.hash("OwnerPass123!", 10),
       role: "OWNER",
       isActive: true,
+    },
+  });
+
+  await prisma.storePaymentMethod.create({
+    data: {
+      businessId: business.id,
+      name: "Demo bank transfer",
+      instructions: "Demo only: replace this method with your real bank, Easypaisa, or JazzCash details before accepting orders.",
     },
   });
 
@@ -269,7 +281,7 @@ async function main() {
     data: [
       { businessId: business.id, category: "Software", question: "How does a software project start?", answer: "PPDS reviews your project brief, clarifies requirements, and provides a written scope, timeline, and quotation before development begins.", keywords: ["software", "project", "start", "quotation"], status: "PUBLISHED" },
       { businessId: business.id, category: "AI Automation", question: "Can AI automation take sensitive actions automatically?", answer: "Sensitive actions can be configured to require validation or human approval. Difficult or low-confidence cases can be escalated to the owner.", keywords: ["ai", "automation", "approval", "human", "security"], status: "PUBLISHED" },
-      { businessId: business.id, category: "Products", question: "How are digital products delivered?", answer: "Availability, account type, access duration, delivery method, support, and payment instructions are confirmed before payment.", keywords: ["product", "delivery", "account", "payment"], status: "PUBLISHED" },
+      { businessId: business.id, category: "Products", question: "How are digital products delivered?", answer: "Place the order on the website, submit payment proof, and access approved credentials securely from your PPDS customer account.", keywords: ["product", "delivery", "account", "payment"], status: "PUBLISHED" },
     ],
   });
 
@@ -287,7 +299,7 @@ async function main() {
 
   await prisma.cmsPage.createMany({
     data: [
-      { businessId: business.id, key: "homepage-intro", title: "Premium digital subscriptions.", summary: "Buy premium access to the digital tools you already use, with clear plans, confirmed duration, and WhatsApp support.", content: { body: "Use this CMS record for future homepage copy revisions." }, status: "PUBLISHED" },
+      { businessId: business.id, key: "homepage-intro", title: "Premium digital subscriptions.", summary: "Buy premium access to the digital tools you already use and receive credentials securely in your account.", content: { body: "Use this CMS record for future homepage copy revisions." }, status: "PUBLISHED" },
       { businessId: business.id, key: "software-intro", title: "Software designed around your business", summary: "Websites, applications, AI automation, and mobile products.", content: { body: "Use this CMS record for future software page copy revisions." }, status: "PUBLISHED" },
     ],
   });

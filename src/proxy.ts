@@ -29,6 +29,10 @@ const sensitiveRouteRules: Array<{ pattern: RegExp; rule: RateLimitRule }> = [
     pattern: /^\/api\/newsletter$/,
     rule: { windowMs: 60_000, maxRequests: 10 },
   },
+  {
+    pattern: /^\/(account\/(login|register)|checkout\/)/,
+    rule: { windowMs: 60_000, maxRequests: 10 },
+  },
 ];
 
 function getClientKey(request: NextRequest) {

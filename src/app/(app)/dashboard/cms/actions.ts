@@ -102,6 +102,13 @@ export async function deleteProductAction(formData: FormData) {
   const session = await cmsSession();
   const id = String(formData.get("id") ?? "");
   const product = await prisma.product.findFirstOrThrow({ where: { id, businessId: session.user.businessId } });
+  const orderCount = await prisma.storeOrder.count({ where: { productId: id } });
+  if (orderCount > 0) {
+    await prisma.product.update({ where: { id }, data: { status: "ARCHIVED", isFeatured: false, isBestSeller: false } });
+    await prisma.auditLog.create({ data: { businessId: session.user.businessId, actorId: session.user.id, action: "cms_product_archived_with_order_history", entityType: "product", entityId: id, beforeState: { name: product.name }, afterState: { status: "ARCHIVED", orderCount } } });
+    refreshCms();
+    return;
+  }
   await prisma.$transaction([
     prisma.product.delete({ where: { id, businessId: session.user.businessId } }),
     prisma.auditLog.create({ data: { businessId: session.user.businessId, actorId: session.user.id, action: "cms_product_deleted", entityType: "product", entityId: id, beforeState: { name: product.name, slug: product.slug } } }),

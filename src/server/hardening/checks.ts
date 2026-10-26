@@ -10,6 +10,7 @@ export function evaluateSecurityConfig(
   env: Pick<
     AppEnv,
     | "NODE_ENV"
+    | "RENDER"
     | "DATABASE_URL"
     | "REDIS_URL"
     | "AUTH_SECRET"
@@ -24,6 +25,8 @@ export function evaluateSecurityConfig(
   >,
 ): HardeningCheck[] {
   const checks: HardeningCheck[] = [];
+  const renderPrivatePostgres = env.RENDER === "true" && isPrivateRenderUrl(env.DATABASE_URL, "dpg-");
+  const renderPrivateRedis = env.RENDER === "true" && isPrivateRenderUrl(env.REDIS_URL, "red-");
 
   checks.push({
     key: "auth_secret",
@@ -39,19 +42,21 @@ export function evaluateSecurityConfig(
   checks.push({
     key: "database_tls",
     status:
-      env.NODE_ENV === "production" && !/[?&]sslmode=(require|verify-ca|verify-full)/i.test(env.DATABASE_URL)
+      env.NODE_ENV === "production" &&
+      !renderPrivatePostgres &&
+      !/[?&]sslmode=(require|verify-ca|verify-full)/i.test(env.DATABASE_URL)
         ? "fail"
         : "pass",
-    summary: "Production PostgreSQL connections must explicitly require TLS.",
+    summary: "Production PostgreSQL connections must use TLS or Render's private network.",
   });
 
   checks.push({
     key: "redis_tls",
     status:
-      env.NODE_ENV === "production" && !env.REDIS_URL.startsWith("rediss://")
+      env.NODE_ENV === "production" && !renderPrivateRedis && !env.REDIS_URL.startsWith("rediss://")
         ? "fail"
         : "pass",
-    summary: "Production Redis connections must use TLS.",
+    summary: "Production Redis connections must use TLS or Render's private network.",
   });
 
   checks.push({
@@ -105,6 +110,15 @@ export function evaluateSecurityConfig(
   });
 
   return checks;
+}
+
+function isPrivateRenderUrl(value: string, hostnamePrefix: string) {
+  try {
+    const hostname = new URL(value).hostname;
+    return hostname.startsWith(hostnamePrefix) && !hostname.includes(".");
+  } catch {
+    return false;
+  }
 }
 
 export function evaluateReliabilityConfig({

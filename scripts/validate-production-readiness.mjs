@@ -54,6 +54,15 @@ const packageJson = JSON.parse(readFileSync(join(root, "package.json"), "utf8"))
 const envExample = readFileSync(join(root, ".env.example"), "utf8");
 const failures = [];
 
+function isPrivateRenderUrl(value, hostnamePrefix) {
+  try {
+    const hostname = new URL(value).hostname;
+    return hostname.startsWith(hostnamePrefix) && !hostname.includes(".");
+  } catch {
+    return false;
+  }
+}
+
 for (const file of requiredFiles) {
   if (!existsSync(join(root, file))) {
     failures.push(`Missing required file: ${file}`);
@@ -127,14 +136,13 @@ if (process.argv.includes("--production")) {
     if (values.INTEGRATION_MODE !== "live") {
       failures.push("Production INTEGRATION_MODE must be live.");
     }
-    if (
-      values.DATABASE_URL &&
-      !/[?&]sslmode=(require|verify-ca|verify-full)/i.test(values.DATABASE_URL)
-    ) {
-      failures.push("Production DATABASE_URL must explicitly require TLS.");
+    const renderPrivatePostgres = values.RENDER === "true" && isPrivateRenderUrl(values.DATABASE_URL, "dpg-");
+    const renderPrivateRedis = values.RENDER === "true" && isPrivateRenderUrl(values.REDIS_URL, "red-");
+    if (values.DATABASE_URL && !renderPrivatePostgres && !/[?&]sslmode=(require|verify-ca|verify-full)/i.test(values.DATABASE_URL)) {
+      failures.push("Production DATABASE_URL must use TLS or Render's private network.");
     }
-    if (values.REDIS_URL && !values.REDIS_URL.startsWith("rediss://")) {
-      failures.push("Production REDIS_URL must use rediss:// TLS.");
+    if (values.REDIS_URL && !renderPrivateRedis && !values.REDIS_URL.startsWith("rediss://")) {
+      failures.push("Production REDIS_URL must use TLS or Render's private network.");
     }
     if ((values.AUTH_SECRET?.length ?? 0) < 32) {
       failures.push("Production AUTH_SECRET must contain at least 32 characters.");

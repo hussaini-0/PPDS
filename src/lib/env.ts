@@ -3,6 +3,7 @@ import { z } from "zod";
 
 const envSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
+  RENDER: z.enum(["true", "false"]).default("false"),
   DATABASE_URL: z.string().min(1).default("postgresql://postgres:postgres@localhost:5432/ppds"),
   REDIS_URL: z.string().min(1).default("redis://localhost:6379"),
   AUTH_SECRET: z.string().min(1).default("development-secret-change-me"),
@@ -34,6 +35,7 @@ const envSchema = z.object({
 
 export const env = envSchema.parse({
   NODE_ENV: process.env.NODE_ENV,
+  RENDER: process.env.RENDER,
   DATABASE_URL: process.env.DATABASE_URL,
   REDIS_URL: process.env.REDIS_URL,
   AUTH_SECRET: process.env.AUTH_SECRET,

@@ -6,6 +6,7 @@ import { formatCurrency } from "@/lib/utils";
 
 export function ProductCard({ product, currency }: {
   product: {
+    id?: string;
     slug: string;
     name: string;
     shortDescription: string;
@@ -25,6 +26,7 @@ export function ProductCard({ product, currency }: {
     ? Math.round(((compareAtPrice - price) / compareAtPrice) * 100)
     : null;
   const media = product.logoUrl ?? product.imageUrl;
+  const checkoutAvailable = Boolean(product.id);
 
   return (
     <article className="group flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_8px_30px_rgba(15,23,42,.045)] transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_16px_45px_rgba(15,23,42,.09)]">
@@ -44,7 +46,7 @@ export function ProductCard({ product, currency }: {
       </Link>
 
       <div className="mt-5 flex items-end justify-between gap-3">
-        <div><p className="text-xl font-black tracking-tight text-slate-950">{formatCurrency(price, currency)}</p><div className="mt-1 flex items-center gap-2">{compareAtPrice ? <span className="text-xs text-slate-400 line-through">{formatCurrency(compareAtPrice, currency)}</span> : null}{discount ? <span className="text-[11px] font-bold text-emerald-700">Save {discount}%</span> : null}</div></div>
+        <div>{checkoutAvailable ? <><p className="text-xl font-black tracking-tight text-slate-950">{formatCurrency(price, currency)}</p><div className="mt-1 flex items-center gap-2">{compareAtPrice ? <span className="text-xs text-slate-400 line-through">{formatCurrency(compareAtPrice, currency)}</span> : null}{discount ? <span className="text-[11px] font-bold text-emerald-700">Save {discount}%</span> : null}</div></> : <p className="text-sm font-bold text-amber-700">Pricing pending</p>}</div>
         <span className="rounded-full border border-slate-200 px-3 py-1.5 text-xs font-bold text-slate-500">1 access</span>
       </div>
 

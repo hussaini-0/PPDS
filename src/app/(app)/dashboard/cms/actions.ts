@@ -35,7 +35,7 @@ export async function installPpdsCatalogueAction() {
   const categories = await Promise.all(PPDS_CATALOG_CATEGORIES.map((category) =>
     prisma.productCategory.upsert({
       where: { businessId_slug: { businessId, slug: category.slug } },
-      update: { name: category.name, description: category.description, icon: category.icon, sortOrder: category.sortOrder, status: "PUBLISHED" },
+      update: { name: category.name, description: category.description, icon: category.icon, sortOrder: category.sortOrder },
       create: { businessId, ...category, status: "PUBLISHED" },
     }),
   ));
@@ -54,9 +54,8 @@ export async function installPpdsCatalogueAction() {
         features: service.features,
         isFeatured: service.isFeatured,
         sortOrder: service.sortOrder,
-        status: "PUBLISHED",
       },
-      create: { businessId, categoryId: categoryIds.get(category.slug)!, ...product },
+      create: { businessId, categoryId: categoryIds.get(category.slug)!, ...product, status: CmsPublicationStatus.DRAFT },
     });
   }));
 

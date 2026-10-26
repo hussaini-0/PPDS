@@ -2,7 +2,6 @@ import Link from "next/link";
 import { Search, SlidersHorizontal } from "lucide-react";
 
 import { ProductCard } from "@/components/marketing/product-card";
-import { mergePpdsCatalogue, PPDS_CATALOG_CATEGORIES } from "@/lib/ppds-catalog";
 import { getStorefrontContent } from "@/modules/cms/service";
 
 export const metadata = { title: "Digital Products | PPDS", description: "Browse curated digital products, tools, and subscriptions from PPDS." };
@@ -12,9 +11,8 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
   const { q = "", category = "" } = await searchParams;
   const { business, categories, products } = await getStorefrontContent();
   const query = q.trim().toLowerCase();
-  const storeCategories = categories.filter((item) => item.slug !== "software-services");
-  const catalogueCategories = storeCategories.length ? storeCategories : PPDS_CATALOG_CATEGORIES;
-  const catalogueProducts = mergePpdsCatalogue(products.filter((product) => product.category.slug !== "software-services"));
+  const catalogueCategories = categories.filter((item) => item.slug !== "software-services");
+  const catalogueProducts = products.filter((product) => product.category.slug !== "software-services");
   const filtered = catalogueProducts.filter((product) => {
     const matchesQuery = !query || `${product.name} ${product.shortDescription} ${product.category.name}`.toLowerCase().includes(query);
     const matchesCategory = !category || product.category.slug === category;

@@ -19,7 +19,6 @@ import {
 import { ProductCard } from "@/components/marketing/product-card";
 import { ProductMedia } from "@/components/marketing/product-media";
 import { getPublicWhatsAppUrl } from "@/lib/whatsapp";
-import { mergePpdsCatalogue, PPDS_CATALOG_CATEGORIES } from "@/lib/ppds-catalog";
 import { getStorefrontContent } from "@/modules/cms/service";
 
 export const dynamic = "force-dynamic";
@@ -37,10 +36,8 @@ const heroPositions = [
 export default async function HomePage() {
   const { business, categories, products, faqs, pages } = await getStorefrontContent();
   const homepageContent = pages.find((page) => page.key === "homepage-intro");
-  const configuredProducts = products.filter((product) => product.category.slug !== "software-services");
-  const storeProducts = mergePpdsCatalogue(configuredProducts);
-  const configuredCategories = categories.filter((category) => category.slug !== "software-services");
-  const catalogueCategories = configuredCategories.length ? configuredCategories : PPDS_CATALOG_CATEGORIES;
+  const storeProducts = products.filter((product) => product.category.slug !== "software-services");
+  const catalogueCategories = categories.filter((category) => category.slug !== "software-services");
   const featured = storeProducts.filter((product) => product.isFeatured);
   const heroProducts = (featured.length ? featured : storeProducts).slice(0, 6);
   const catalogueProducts = storeProducts.slice(0, 18);

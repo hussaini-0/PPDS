@@ -127,6 +127,17 @@ enum StoreCredentialStatus {
   EXPIRED
 }
 
+enum WalletTransactionType {
+  CREDIT
+  DEBIT
+}
+
+enum WalletTransactionSource {
+  ADMIN_ADJUSTMENT
+  PURCHASE
+  REFUND
+}
+
 enum KnowledgeBaseCategory {
   PLAN
   PRICING
@@ -288,6 +299,7 @@ model Business {
   storeOrders            StoreOrder[]
   storeCredentials       StoreCredential[]
   storePaymentMethods    StorePaymentMethod[]
+  walletTransactions     WalletTransaction[]
 }
 
 model User {
@@ -311,6 +323,7 @@ model User {
   sessions                 Session[]
   accounts                 Account[]
   reviewedStoreOrders      StoreOrder[]         @relation("StoreOrderReviewedBy")
+  walletTransactions       WalletTransaction[]   @relation("WalletTransactionActor")
 
   @@unique([businessId, email])
   @@index([businessId, role])
@@ -990,16 +1003,18 @@ model Product {
 }
 
 model CustomerAccount {
-  id           String   @id @default(cuid())
-  businessId   String
-  customerId   String   @unique
-  email        String
-  passwordHash String
-  isActive     Boolean  @default(true)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  business     Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
-  customer     Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  id                 String              @id @default(cuid())
+  businessId         String
+  customerId         String              @unique
+  email              String
+  passwordHash       String
+  walletBalance      Decimal             @default(0) @db.Decimal(12, 2)
+  isActive           Boolean             @default(true)
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  business           Business            @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  customer           Customer            @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  walletTransactions WalletTransaction[]
 
   @@unique([businessId, email])
   @@index([businessId, isActive])
@@ -1035,9 +1050,33 @@ model StoreOrder {
   paymentProofFile    UploadedFile?       @relation("StoreOrderProof", fields: [paymentProofFileId], references: [id])
   reviewedByUser      User?               @relation("StoreOrderReviewedBy", fields: [reviewedByUserId], references: [id])
   credential          StoreCredential?
+  walletTransactions  WalletTransaction[]
 
   @@index([businessId, status, createdAt])
   @@index([customerId, createdAt])
+}
+
+model WalletTransaction {
+  id                String                  @id @default(cuid())
+  businessId        String
+  customerAccountId String
+  orderId           String?
+  actorUserId       String?
+  type              WalletTransactionType
+  source            WalletTransactionSource
+  amount            Decimal                 @db.Decimal(12, 2)
+  balanceAfter      Decimal                 @db.Decimal(12, 2)
+  currency          String
+  reason            String
+  createdAt         DateTime                @default(now())
+  business          Business                @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  customerAccount   CustomerAccount         @relation(fields: [customerAccountId], references: [id], onDelete: Cascade)
+  order             StoreOrder?             @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  actorUser         User?                    @relation("WalletTransactionActor", fields: [actorUserId], references: [id], onDelete: SetNull)
+
+  @@index([businessId, createdAt])
+  @@index([customerAccountId, createdAt])
+  @@index([orderId, createdAt])
 }
 
 model StorePaymentMethod {

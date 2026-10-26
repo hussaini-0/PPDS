@@ -10,6 +10,25 @@ import {
   requestPaymentClarification,
   rejectPayment,
 } from "@/modules/payments/service";
+import { walletAdjustmentSchema } from "@/modules/store/schemas";
+import { adjustCustomerWallet } from "@/modules/wallet-service";
+
+export async function adjustCustomerWalletAction(formData: FormData) {
+  const session = await requirePermission("APPROVE_PAYMENTS");
+  const data = walletAdjustmentSchema.parse({
+    customerAccountId: formData.get("customerAccountId"),
+    direction: formData.get("direction"),
+    amount: formData.get("amount"),
+    reason: formData.get("reason"),
+  });
+  await adjustCustomerWallet({
+    businessId: session.user.businessId,
+    actorUserId: session.user.id,
+    ...data,
+  });
+  revalidatePath("/dashboard/payments");
+  revalidatePath("/account");
+}
 
 export async function approvePaymentAction(formData: FormData) {
   const session = await requirePermission("APPROVE_PAYMENTS");

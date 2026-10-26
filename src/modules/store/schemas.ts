@@ -7,6 +7,18 @@ export const checkoutSchema = z.object({
   acceptTerms: z.literal("on", { error: "You must accept the Terms of Service." }),
 });
 
+export const walletCheckoutSchema = z.object({
+  productId: z.string().min(1),
+  acceptTerms: z.literal("on", { error: "You must accept the Terms of Service." }),
+});
+
+export const walletAdjustmentSchema = z.object({
+  customerAccountId: z.string().min(1),
+  direction: z.enum(["CREDIT", "DEBIT"]),
+  amount: z.coerce.number().positive().max(10_000_000),
+  reason: z.string().trim().min(5, "Add a clear audit reason.").max(300),
+});
+
 export const fulfillmentSchema = z
   .object({
     orderId: z.string().min(1),

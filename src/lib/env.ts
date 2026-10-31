@@ -17,7 +17,7 @@ const envSchema = z.object({
   WHATSAPP_PHONE_NUMBER_ID: z.string().default(""),
   WHATSAPP_BUSINESS_ACCOUNT_ID: z.string().default(""),
   WHATSAPP_VERIFY_TOKEN: z.string().default("dev-verify-token"),
-  WHATSAPP_PUBLIC_NUMBER: z.string().default(""),
+  WHATSAPP_PUBLIC_NUMBER: z.string().default("923458197950"),
   AI_PROVIDER: z.string().default("mock"),
   AI_CONFIDENCE_THRESHOLD: z.coerce.number().min(0).max(1).default(0.7),
   FILE_STORAGE_PROVIDER: z.enum(["local", "s3"]).default("local"),

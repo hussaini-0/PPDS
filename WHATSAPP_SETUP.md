@@ -20,6 +20,6 @@ Live webhook verification and signature validation will be handled by server rou
 
 ## Customer QR access
 
-Set `WHATSAPP_PUBLIC_NUMBER` to the business number in international format without spaces, for example `923001234567`. The customer page at `/login` generates a QR code that opens the official `wa.me` conversation.
+Set `WHATSAPP_PUBLIC_NUMBER` to `923458197950` (international format without spaces). Public support buttons then open the official `wa.me` conversation for +92 345 8197950.
 
 This QR code does not connect a WhatsApp Web session. Production bot access continues to use the official WhatsApp Cloud API credentials and webhook configuration above.

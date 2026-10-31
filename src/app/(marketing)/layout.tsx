@@ -8,7 +8,7 @@ export default async function MarketingLayout({ children }: { children: React.Re
   await connection();
 
   return (
-    <div className="min-h-screen bg-[#f8f5ee] text-[#07111f]">
+    <div className="min-h-screen bg-[#f8f5ee] text-[#07111f] dark:bg-[#07111f] dark:text-slate-50">
       <SiteHeader />
       <main>{children}</main>
       <SiteFooter />

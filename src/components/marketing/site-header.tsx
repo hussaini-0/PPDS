@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Code2, LogIn, Menu, MessageCircle, Search, ShoppingCart, UserPlus, UserRound, WalletCards } from "lucide-react";
 
 import { BrandLogo } from "@/components/marketing/brand-logo";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { getPublicWhatsAppUrl } from "@/lib/whatsapp";
 import { getCustomerAccount } from "@/modules/customer-auth/session";
 
@@ -18,7 +19,7 @@ export async function SiteHeader() {
   const customerAccount = await getCustomerAccount();
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200 bg-[#f8fafc]/95 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-slate-200 bg-[#f8fafc]/95 backdrop-blur-xl dark:border-slate-800 dark:bg-[#07111f]/95">
       <div className="mx-auto flex h-[74px] max-w-[1500px] items-center gap-3 px-3 sm:px-5 lg:px-7">
         <Link href="/" aria-label="PPDS home" className="shrink-0"><BrandLogo /></Link>
 
@@ -27,6 +28,7 @@ export async function SiteHeader() {
         </nav>
 
         <div className="ml-auto flex items-center gap-2">
+          <ThemeToggle className="hidden sm:grid" />
           <Link href="/products" aria-label="Search store" className="grid size-10 place-items-center rounded-full text-slate-700 transition hover:bg-white"><Search className="size-5" /></Link>
           <Link href={whatsAppUrl} aria-label="WhatsApp support" className="hidden size-10 place-items-center rounded-full text-emerald-700 transition hover:bg-white sm:grid"><MessageCircle className="size-5" /></Link>
           <Link href="/cart" aria-label="Cart" className="grid size-10 place-items-center rounded-full text-slate-700 transition hover:bg-white"><ShoppingCart className="size-5" /></Link>

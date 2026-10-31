@@ -23,7 +23,7 @@ export function NewsletterForm() {
     <form onSubmit={submit} className="space-y-2">
       <div className="flex rounded-full border border-white/20 bg-white/10 p-1">
         <input {...register("email", { required: true, pattern: /^\S+@\S+\.\S+$/ })} className="min-w-0 flex-1 bg-transparent px-4 text-sm text-white outline-none placeholder:text-slate-400" placeholder="Email address" />
-        <button disabled={isSubmitting} className="rounded-full bg-amber-400 px-4 py-2 text-sm font-bold text-slate-950">Subscribe</button>
+        <button disabled={isSubmitting} className="rounded-full bg-[#18c7d8] px-4 py-2 text-sm font-bold text-[#07111f] transition hover:bg-cyan-300">Subscribe</button>
       </div>
       {errors.email ? <p className="text-xs text-rose-300">Enter a valid email address.</p> : null}
       {message ? <p className="text-xs text-slate-300">{message}</p> : null}

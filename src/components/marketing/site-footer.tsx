@@ -8,7 +8,7 @@ import { getPublicWhatsAppUrl } from "@/lib/whatsapp";
 export function SiteFooter() {
   const whatsAppUrl = getPublicWhatsAppUrl();
   return (
-    <footer className="bg-[#151719] text-white">
+    <footer className="bg-[#07111f] text-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 md:grid-cols-2 lg:grid-cols-4 lg:px-8">
         <div><BrandLogo /><p className="mt-4 max-w-sm text-sm leading-6 text-slate-300">Premium digital products and custom software for businesses ready to operate smarter.</p><Link href={whatsAppUrl} className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-cyan-300"><MessageCircle className="size-4" /> WhatsApp support</Link></div>
         <div><h3 className="font-bold">Explore</h3><div className="mt-4 grid gap-3 text-sm text-slate-300"><Link href="/products">Digital products</Link><Link href="/deals">Deals & offers</Link><Link href="/software-development">Software development</Link><Link href="/project-request">Request a project</Link></div></div>

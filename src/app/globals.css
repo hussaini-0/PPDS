@@ -3,11 +3,12 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #f7f7f2;
-  --foreground: #09090b;
+  --background: #f3f7fb;
+  --foreground: #07111f;
   --brand-cyan: #18c7d8;
   --brand-blue: #0878b9;
-  --brand-charcoal: #202224;
+  --brand-navy: #07111f;
+  --brand-charcoal: #101827;
   --font-sans: "Segoe UI Variable", "Segoe UI", "Helvetica Neue", sans-serif;
   --font-display: "Aptos Display", "Bahnschrift", "Trebuchet MS", sans-serif;
 }

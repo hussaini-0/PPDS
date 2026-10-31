@@ -21,19 +21,84 @@ const services = [
 export default async function SoftwareDevelopmentPage() {
   const { business, packages, pages } = await getStorefrontContent();
   const softwareContent = pages.find((page) => page.key === "software-intro");
+
   return (
     <>
-      <section className="relative overflow-hidden bg-[#151719] text-white"><div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(24,199,216,.3),transparent_30%),linear-gradient(rgba(255,255,255,.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.05)_1px,transparent_1px)] bg-[size:auto,42px_42px,42px_42px]" /><div className="relative mx-auto max-w-7xl px-4 py-24 lg:px-8 lg:py-32"><p className="text-sm font-bold uppercase tracking-[.25em] text-cyan-300">PPDS Software Studio</p><h1 className="mt-6 max-w-5xl text-5xl font-black leading-[.98] tracking-[-.06em] sm:text-7xl">{softwareContent?.title ?? "Software designed around your business, not the other way around."}</h1><p className="mt-7 max-w-3xl text-lg leading-8 text-slate-300">{softwareContent?.summary ?? "From high-converting websites to AI-powered workflows, we design, build, launch, and support reliable digital products."}</p><div className="mt-9 flex flex-wrap gap-3"><Link href="#request" className="rounded-full bg-[#18c7d8] px-6 py-3.5 font-bold text-slate-950">Request a free consultation</Link><Link href="#packages" className="rounded-full border border-white/25 px-6 py-3.5 font-bold">View development packages</Link></div></div></section>
+      <section className="relative overflow-hidden bg-[#07111f] text-white">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(24,199,216,.3),transparent_30%),linear-gradient(rgba(255,255,255,.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.05)_1px,transparent_1px)] bg-[size:auto,42px_42px,42px_42px]" />
+        <div className="relative mx-auto max-w-7xl px-4 py-24 lg:px-8 lg:py-32">
+          <p className="text-sm font-bold uppercase tracking-[.25em] text-cyan-300">PPDS Software Studio</p>
+          <h1 className="mt-6 max-w-5xl text-5xl font-black leading-[.98] tracking-[-.06em] sm:text-7xl">{softwareContent?.title ?? "Software designed around your business, not the other way around."}</h1>
+          <p className="mt-7 max-w-3xl text-lg leading-8 text-slate-300">{softwareContent?.summary ?? "From high-converting websites to AI-powered workflows, we design, build, launch, and support reliable digital products."}</p>
+          <div className="mt-9 flex flex-wrap gap-3">
+            <Link href="#request" className="rounded-full bg-[#18c7d8] px-6 py-3.5 font-bold text-slate-950">Request a free consultation</Link>
+            <Link href="#packages" className="rounded-full border border-white/25 px-6 py-3.5 font-bold">View development packages</Link>
+          </div>
+        </div>
+      </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-20 lg:px-8"><div className="grid gap-5 lg:grid-cols-2">{services.map(({ icon: Icon, title, copy, items }, index) => <article key={title} className="rounded-[2rem] border border-slate-200 bg-white p-7 shadow-sm"><div className="flex items-start justify-between"><span className={`grid size-12 place-items-center rounded-2xl ${index % 2 ? "bg-sky-300" : "bg-cyan-300"}`}><Icon className="size-6" /></span><span className="text-sm font-black text-slate-300">0{index + 1}</span></div><h2 className="mt-7 text-3xl font-black tracking-[-.04em]">{title}</h2><p className="mt-3 leading-7 text-slate-600">{copy}</p><ul className="mt-6 grid gap-3 sm:grid-cols-2">{items.map((item) => <li key={item} className="flex items-center gap-2 text-sm"><Check className="size-4 text-cyan-700" />{item}</li>)}</ul><Link href="#request" className="mt-7 inline-flex items-center gap-2 font-bold">Discuss this service <ArrowRight className="size-4" /></Link></article>)}</div></section>
+      <section className="mx-auto max-w-7xl px-4 py-20 lg:px-8">
+        <div className="grid gap-5 lg:grid-cols-2">
+          {services.map(({ icon: Icon, title, copy, items }, index) => (
+            <article key={title} className="rounded-[2rem] border border-slate-200 bg-white p-7 shadow-sm">
+              <div className="flex items-start justify-between">
+                <span className={`grid size-12 place-items-center rounded-2xl ${index % 2 ? "bg-sky-300" : "bg-cyan-300"}`}><Icon className="size-6" /></span>
+                <span className="text-sm font-black text-slate-300">0{index + 1}</span>
+              </div>
+              <h2 className="mt-7 text-3xl font-black tracking-[-.04em]">{title}</h2>
+              <p className="mt-3 leading-7 text-slate-600">{copy}</p>
+              <ul className="mt-6 grid gap-3 sm:grid-cols-2">{items.map((item) => <li key={item} className="flex items-center gap-2 text-sm"><Check className="size-4 text-cyan-700" />{item}</li>)}</ul>
+              <Link href="#request" className="mt-7 inline-flex items-center gap-2 font-bold text-cyan-700">Discuss this service <ArrowRight className="size-4" /></Link>
+            </article>
+          ))}
+        </div>
+      </section>
 
-      <section id="packages" className="border-y border-slate-200 bg-white"><div className="mx-auto max-w-7xl px-4 py-20 lg:px-8"><p className="text-sm font-bold uppercase tracking-[.2em] text-amber-700">Transparent starting points</p><h2 className="mt-3 text-4xl font-black tracking-[-.04em]">Development packages</h2><p className="mt-4 max-w-2xl leading-7 text-slate-600">Each package defines scope, timeline, revisions, and support. Final price is confirmed after discovery.</p><div className="mt-9 grid gap-5 md:grid-cols-2 xl:grid-cols-3">{packages.map((item) => <article key={item.id} className={`flex flex-col rounded-[1.75rem] border p-6 ${item.isFeatured ? "border-amber-400 bg-amber-50 shadow-xl shadow-amber-900/10" : "border-slate-200 bg-white"}`}><div className="flex items-center justify-between"><p className="text-xs font-bold uppercase tracking-[.2em] text-amber-700">{item.serviceType}</p>{item.isFeatured ? <span className="rounded-full bg-amber-400 px-3 py-1 text-xs font-bold">Popular</span> : null}</div><h3 className="mt-4 text-2xl font-black tracking-tight">{item.name}</h3><p className="mt-2 text-sm leading-6 text-slate-600">{item.summary}</p><p className="mt-5 text-2xl font-black">{item.startingPrice ? `From ${formatCurrency(Number(item.startingPrice), business.currency)}` : "Custom quotation"}</p><p className="mt-2 text-xs text-slate-500">For {item.audience}</p><ul className="mt-6 grid gap-3">{item.features.map((feature) => <li key={feature} className="flex gap-2 text-sm"><Check className="mt-0.5 size-4 shrink-0 text-emerald-600" />{feature}</li>)}</ul><dl className="mt-6 grid grid-cols-3 gap-2 border-t border-slate-200 pt-5 text-xs"><div><dt className="text-slate-500">Timeline</dt><dd className="mt-1 font-bold">{item.timeline}</dd></div><div><dt className="text-slate-500">Revisions</dt><dd className="mt-1 font-bold">{item.revisions}</dd></div><div><dt className="text-slate-500">Support</dt><dd className="mt-1 font-bold">{item.supportPeriod}</dd></div></dl><Link href={`/project-request?package=${item.slug}`} className="mt-7 rounded-full bg-[#07111f] px-5 py-3 text-center text-sm font-bold text-white">Request this package</Link></article>)}</div></div></section>
+      <section id="packages" className="border-y border-slate-200 bg-white">
+        <div className="mx-auto max-w-7xl px-4 py-20 lg:px-8">
+          <p className="text-sm font-bold uppercase tracking-[.2em] text-cyan-700">Transparent starting points</p>
+          <h2 className="mt-3 text-4xl font-black tracking-[-.04em]">Development packages</h2>
+          <p className="mt-4 max-w-2xl leading-7 text-slate-600">Each package defines scope, timeline, revisions, and support. Final price is confirmed after discovery.</p>
+          <div className="mt-9 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            {packages.map((item) => (
+              <article key={item.id} className={`flex flex-col rounded-[1.75rem] border p-6 ${item.isFeatured ? "border-cyan-400 bg-cyan-50 shadow-xl shadow-cyan-900/10" : "border-slate-200 bg-white"}`}>
+                <div className="flex items-center justify-between">
+                  <p className="text-xs font-bold uppercase tracking-[.2em] text-cyan-700">{item.serviceType}</p>
+                  {item.isFeatured ? <span className="rounded-full bg-[#18c7d8] px-3 py-1 text-xs font-bold text-[#07111f]">Popular</span> : null}
+                </div>
+                <h3 className="mt-4 text-2xl font-black tracking-tight">{item.name}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{item.summary}</p>
+                <p className="mt-5 text-2xl font-black">{item.startingPrice ? `From ${formatCurrency(Number(item.startingPrice), business.currency)}` : "Custom quotation"}</p>
+                <p className="mt-2 text-xs text-slate-500">For {item.audience}</p>
+                <ul className="mt-6 grid gap-3">{item.features.map((feature) => <li key={feature} className="flex gap-2 text-sm"><Check className="mt-0.5 size-4 shrink-0 text-cyan-700" />{feature}</li>)}</ul>
+                <dl className="mt-6 grid grid-cols-3 gap-2 border-t border-slate-200 pt-5 text-xs">
+                  <div><dt className="text-slate-500">Timeline</dt><dd className="mt-1 font-bold">{item.timeline}</dd></div>
+                  <div><dt className="text-slate-500">Revisions</dt><dd className="mt-1 font-bold">{item.revisions}</dd></div>
+                  <div><dt className="text-slate-500">Support</dt><dd className="mt-1 font-bold">{item.supportPeriod}</dd></div>
+                </dl>
+                <Link href={`/project-request?package=${item.slug}`} className="mt-7 rounded-full bg-[#0878b9] px-5 py-3 text-center text-sm font-bold text-white">Request this package</Link>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-20 lg:px-8"><div className="text-center"><p className="text-sm font-bold uppercase tracking-[.2em] text-amber-700">How projects move</p><h2 className="mt-3 text-4xl font-black tracking-[-.04em]">From uncertainty to a working system</h2></div><div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-7">{["Discovery","Scope & quotation","UI/UX design","Development","Testing & review","Deployment","Support & maintenance"].map((step,index) => <div key={step} className="rounded-2xl border border-slate-200 bg-white p-4"><span className="text-xs font-black text-amber-700">0{index+1}</span><p className="mt-4 text-sm font-bold">{step}</p></div>)}</div></section>
+      <section className="mx-auto max-w-7xl px-4 py-20 lg:px-8">
+        <div className="text-center"><p className="text-sm font-bold uppercase tracking-[.2em] text-cyan-700">How projects move</p><h2 className="mt-3 text-4xl font-black tracking-[-.04em]">From uncertainty to a working system</h2></div>
+        <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-7">{["Discovery", "Scope & quotation", "UI/UX design", "Development", "Testing & review", "Deployment", "Support & maintenance"].map((step, index) => <div key={step} className="rounded-2xl border border-slate-200 bg-white p-4"><span className="text-xs font-black text-cyan-700">0{index + 1}</span><p className="mt-4 text-sm font-bold">{step}</p></div>)}</div>
+      </section>
 
-      <section className="bg-emerald-400"><div className="mx-auto flex max-w-7xl flex-col items-start gap-7 px-4 py-14 md:flex-row md:items-center md:justify-between lg:px-8"><div><div className="flex items-center gap-2 text-sm font-bold uppercase tracking-[.18em]"><ShieldCheck className="size-5" /> Responsible automation</div><h2 className="mt-3 text-3xl font-black tracking-tight">AI assists. Your business rules stay in control.</h2><p className="mt-2 max-w-2xl text-emerald-950/75">Outputs are validated, sensitive actions can require approval, and difficult cases escalate to a human.</p></div><Link href="#request" className="shrink-0 rounded-full bg-[#07111f] px-6 py-3 font-bold text-white">Plan an automation</Link></div></section>
+      <section className="bg-[linear-gradient(110deg,#18c7d8,#0878b9)] text-white">
+        <div className="mx-auto flex max-w-7xl flex-col items-start gap-7 px-4 py-14 md:flex-row md:items-center md:justify-between lg:px-8">
+          <div><div className="flex items-center gap-2 text-sm font-bold uppercase tracking-[.18em] text-cyan-50"><ShieldCheck className="size-5" /> Responsible automation</div><h2 className="mt-3 text-3xl font-black tracking-tight">AI assists. Your business rules stay in control.</h2><p className="mt-2 max-w-2xl text-cyan-50/80">Outputs are validated, sensitive actions can require approval, and difficult cases escalate to a human.</p></div>
+          <Link href="#request" className="shrink-0 rounded-full bg-[#07111f] px-6 py-3 font-bold text-white">Plan an automation</Link>
+        </div>
+      </section>
 
-      <section id="request" className="mx-auto max-w-5xl px-4 py-20 lg:px-8"><div className="mb-8 text-center"><p className="text-sm font-bold uppercase tracking-[.2em] text-amber-700">Start with context</p><h2 className="mt-3 text-4xl font-black tracking-[-.04em]">Tell us what needs to work better</h2><p className="mt-4 text-slate-600">A useful brief gets a useful response. No obligation and no invented instant quote.</p></div><ProjectInquiryForm packageNames={packages.map((item) => item.name)} /></section>
+      <section id="request" className="mx-auto max-w-5xl px-4 py-20 lg:px-8">
+        <div className="mb-8 text-center"><p className="text-sm font-bold uppercase tracking-[.2em] text-cyan-700">Start with context</p><h2 className="mt-3 text-4xl font-black tracking-[-.04em]">Tell us what needs to work better</h2><p className="mt-4 text-slate-600">A useful brief gets a useful response. No obligation and no invented instant quote.</p></div>
+        <ProjectInquiryForm packageNames={packages.map((item) => item.name)} />
+      </section>
     </>
   );
 }

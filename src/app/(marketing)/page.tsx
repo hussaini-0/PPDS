@@ -100,7 +100,7 @@ export default async function HomePage() {
       </section>
 
       <section className="mx-auto grid max-w-[1500px] gap-3 px-3 py-5 sm:px-5 lg:grid-cols-2 lg:px-7">
-        <Link href="/deals" className="group flex min-h-28 items-center justify-between overflow-hidden rounded-2xl bg-[linear-gradient(115deg,#2563eb,#4f46e5)] px-6 py-5 text-white shadow-lg shadow-blue-900/10">
+        <Link href="/deals" className="group flex min-h-28 items-center justify-between overflow-hidden rounded-2xl bg-[linear-gradient(115deg,#07111f,#0878b9)] px-6 py-5 text-white shadow-lg shadow-blue-900/10">
           <span className="flex items-center gap-4"><span className="grid size-12 place-items-center rounded-2xl bg-white/15"><Gift className="size-6" /></span><span><strong className="block text-lg">Deals &amp; offers</strong><small className="mt-1 block text-blue-100">Published discounts, clearly marked</small></span></span><ArrowRight className="size-5 transition group-hover:translate-x-1" />
         </Link>
         <Link href="/software-development" className="group flex min-h-28 items-center justify-between overflow-hidden rounded-2xl border border-slate-200 bg-white px-6 py-5 text-slate-900 shadow-sm">

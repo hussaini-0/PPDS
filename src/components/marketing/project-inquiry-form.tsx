@@ -20,7 +20,7 @@ type InquiryFields = {
   briefFile: FileList;
 };
 
-const inputClass = "w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-amber-500 focus:ring-4 focus:ring-amber-100";
+const inputClass = "w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100";
 
 export function ProjectInquiryForm({ packageNames = [] }: { packageNames?: string[] }) {
   const [message, setMessage] = useState("");
@@ -59,7 +59,7 @@ export function ProjectInquiryForm({ packageNames = [] }: { packageNames?: strin
       <label className="text-sm font-semibold">Preferred contact<select {...register("preferredContactMethod", { required: true })} className={`${inputClass} mt-2`}><option value="WHATSAPP">WhatsApp</option><option value="EMAIL">Email</option><option value="PHONE">Phone</option></select></label>
       <label className="text-sm font-semibold md:col-span-2">Project brief (PDF, DOCX, JPG or PNG; max 10 MB)<input type="file" accept=".pdf,.docx,.jpg,.jpeg,.png" {...register("briefFile")} className={`${inputClass} mt-2`} /></label>
       <label className="flex items-start gap-3 text-sm text-slate-600 md:col-span-2"><input type="checkbox" {...register("consent", { required: true })} className="mt-1 size-4" />I consent to PPDS using these details to assess and respond to my project request.</label>
-      <div className="md:col-span-2"><button disabled={isSubmitting} className="rounded-full bg-amber-500 px-6 py-3 font-bold text-slate-950 hover:bg-amber-400 disabled:opacity-60">{isSubmitting ? "Sending…" : "Submit project request"}</button>{message ? <p className="mt-3 text-sm text-slate-600" role="status">{message}</p> : null}</div>
+      <div className="md:col-span-2"><button disabled={isSubmitting} className="rounded-full bg-[#0878b9] px-6 py-3 font-bold text-white transition hover:bg-[#075f93] disabled:opacity-60">{isSubmitting ? "Sending…" : "Submit project request"}</button>{message ? <p className="mt-3 text-sm text-slate-600" role="status">{message}</p> : null}</div>
     </form>
   );
 }

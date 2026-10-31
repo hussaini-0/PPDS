@@ -39,7 +39,7 @@ export function AppShell({
   mode: "mock" | "live";
 }) {
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(245,158,11,0.12),_transparent_28%),linear-gradient(180deg,#f8fafc_0%,#eef2ff_100%)] text-zinc-950 dark:bg-[radial-gradient(circle_at_top_left,_rgba(24,199,216,0.12),_transparent_28%),linear-gradient(180deg,#07111f_0%,#0f172a_100%)] dark:text-slate-50">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(24,199,216,0.14),_transparent_28%),linear-gradient(180deg,#f3f8fc_0%,#e9f3fa_100%)] text-zinc-950 dark:bg-[radial-gradient(circle_at_top_left,_rgba(24,199,216,0.12),_transparent_28%),linear-gradient(180deg,#07111f_0%,#0f172a_100%)] dark:text-slate-50">
       <div className="mx-auto flex min-h-screen max-w-[1680px] gap-6 px-4 py-6 lg:px-6 xl:px-8">
         <aside className="hidden w-64 shrink-0 rounded-[2rem] border border-white/70 bg-zinc-950 p-5 text-white shadow-2xl lg:block">
           <div className="space-y-3">

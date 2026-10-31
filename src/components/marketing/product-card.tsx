@@ -51,7 +51,7 @@ export function ProductCard({ product, currency }: {
       </div>
 
       <div className="mt-5 flex gap-2">
-        <Link href={`/products/${product.slug}`} className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[linear-gradient(90deg,#0878b9,#2563eb)] px-4 py-3 text-sm font-bold text-white shadow-md shadow-blue-900/10 transition group-hover:brightness-110">View plan <ArrowRight className="size-4" /></Link>
+        <Link href={`/products/${product.slug}`} className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[linear-gradient(90deg,#075f93,#0b93ca)] px-4 py-3 text-sm font-bold text-white shadow-md shadow-blue-900/10 transition group-hover:brightness-110">View plan <ArrowRight className="size-4" /></Link>
         <Link href={`/products/${product.slug}`} aria-label={`View ${product.name}`} className="grid size-11 shrink-0 place-items-center rounded-full border border-slate-300 bg-white text-slate-700 transition hover:border-cyan-500 hover:text-cyan-700"><ShoppingCart className="size-4" /></Link>
       </div>
     </article>

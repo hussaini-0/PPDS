@@ -20,6 +20,7 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:seed": "tsx prisma/seed.ts",
     "bootstrap:owner": "tsx scripts/bootstrap-owner.ts",
+    "owner:reset": "tsx scripts/reset-owner-credentials.ts",
     "worker:followups": "tsx worker/follow-up-worker.ts",
     "worker:subscriptions": "tsx worker/subscription-worker.ts",
     "worker:broadcasts": "tsx worker/broadcast-worker.ts",
